@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Manage API Keys and Environment Variables — AISC How-To Guides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="logo-mark">[ ai study camp ]</span>
+      <a href="index.html" class="header-breadcrumb">How-To Guides →</a>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
+
+    <!-- HERO -->
+    <section class="guide-hero">
+      <div class="guide-badge">Guide 12</div>
+      <h1 class="guide-title">How to Manage API Keys and Environment Variables</h1>
+      <p class="guide-subtitle">Store secrets safely, keep them out of GitHub, and make them available in both local development and Vercel.</p>
+    </section>
+
+    <!-- WHAT'S AN ENVIRONMENT VARIABLE? -->
+    <div class="intro-section">
+      <h2>What's an Environment Variable?</h2>
+      <p>It's a value your app reads from the environment it's running in - not from your code. API keys, database IDs, and other secrets live here instead of in your files.</p>
+      <p><strong>Why:</strong> If you paste an API key directly into your code and push to GitHub, it's exposed. Anyone can find it. Environment variables keep secrets out of your codebase entirely.</p>
+    </div>
+
+    <!-- THE PATTERN -->
+    <div class="intro-section">
+      <h2>The Pattern</h2>
+      <p>You have two environments:</p>
+      <ul>
+        <li><strong>Local (your computer):</strong> secrets live in a <code>.env</code> file</li>
+        <li><strong>Production (Vercel):</strong> secrets live in the Vercel dashboard</li>
+      </ul>
+      <p>Same variable names, different places.</p>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- LOCAL SETUP -->
+    <div class="intro-section" style="margin-bottom: 8px;">
+      <h2>Local Setup</h2>
+    </div>
+
+    <section class="steps-section">
+      <div class="steps-container">
+
+        <!-- Step 1 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">1</div>
+            <h2 class="step-title">Create a .env file</h2>
+          </div>
+          <div class="step-body">
+            <p>In your project's root folder (same level as <code>package.json</code>), create a file called <code>.env</code>:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">.env</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">VITE_INSTANT_APP_ID=your-app-id-here</span>
+<span class="cmd">VITE_OPENAI_API_KEY=sk-...</span>
+              </div>
+            </div>
+            <div class="tip-box">
+              <span class="tip-label">Note</span>
+              <p>In Vite/React projects, variables must start with <code>VITE_</code> to be accessible in your frontend code. Variables without <code>VITE_</code> are backend-only.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">2</div>
+            <h2 class="step-title">Add .env to .gitignore</h2>
+          </div>
+          <div class="step-body">
+            <p>Make sure your <code>.env</code> file is never committed to GitHub. Check your <code>.gitignore</code>:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ cat .gitignore</span>
+              </div>
+            </div>
+            <p>You should see <code>.env</code> in the list. If not, add it:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">.gitignore</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">.env</span>
+<span class="cmd">.env.local</span>
+              </div>
+            </div>
+            <div class="tip-box">
+              <span class="tip-label">Important</span>
+              <p>This is the most important step. A <code>.env</code> file committed to a public repo exposes all your secrets.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">3</div>
+            <h2 class="step-title">Create a .env.example file</h2>
+          </div>
+          <div class="step-body">
+            <p>So others (or future you) know what variables are needed, create a template with the variable names but no values:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">.env.example</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">VITE_INSTANT_APP_ID=</span>
+<span class="cmd">VITE_OPENAI_API_KEY=</span>
+              </div>
+            </div>
+            <p>Commit this file to GitHub - it's safe because it has no actual values.</p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">4</div>
+            <h2 class="step-title">Use the variable in your code</h2>
+          </div>
+          <div class="step-body">
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">Vite / React</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">const appId = import.meta.env.VITE_INSTANT_APP_ID;</span>
+              </div>
+            </div>
+            <p>For Node.js / backend code:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">Node.js</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">const apiKey = process.env.OPENAI_API_KEY;</span>
+              </div>
+            </div>
+            <div class="visual-placeholder">
+              <span class="visual-icon">⬚</span>
+              <span class="visual-label">Screenshot or screen recording</span>
+            </div>
+            <p class="visual-caption">Code file showing import.meta.env usage vs. a hardcoded key</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- VERCEL SETUP -->
+    <div class="intro-section">
+      <h2>Vercel Setup</h2>
+      <p>Your <code>.env</code> file doesn't go to Vercel - you add variables there separately.</p>
+    </div>
+
+    <!-- Option A -->
+    <div class="intro-section" style="margin-bottom: 8px;">
+      <h2>Option A: From the Vercel dashboard</h2>
+      <ol>
+        <li>Go to your project on <a href="https://vercel.com">vercel.com</a></li>
+        <li>Settings → <strong>Environment Variables</strong></li>
+        <li>Add each variable with its value</li>
+        <li>Select all three environments (Production, Preview, Development)</li>
+        <li>Save, then redeploy</li>
+      </ol>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Option B -->
+    <div class="intro-section" style="margin-bottom: 8px;">
+      <h2>Option B: From the terminal</h2>
+      <div class="terminal">
+        <div class="term-bar">
+          <span class="term-dot r"></span>
+          <span class="term-dot y"></span>
+          <span class="term-dot g"></span>
+          <span class="term-title">zsh</span>
+        </div>
+        <div class="term-body">
+<span class="cmd">$ vercel env add VITE_INSTANT_APP_ID</span>
+        </div>
+      </div>
+      <p>Vercel will prompt for the value and which environments to use.</p>
+      <p>After adding variables, always redeploy:</p>
+      <div class="terminal">
+        <div class="term-bar">
+          <span class="term-dot r"></span>
+          <span class="term-dot y"></span>
+          <span class="term-dot g"></span>
+          <span class="term-title">zsh</span>
+        </div>
+        <div class="term-body">
+<span class="cmd">$ vercel --prod</span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- QUICK REFERENCE TABLE -->
+    <div class="intro-section">
+      <h2>Quick Reference</h2>
+      <table style="width:100%; font-size:14px; border-collapse:collapse; color: var(--text-secondary);">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">Where</th>
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">How to set</th>
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">How to read</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px;">Local (Vite/React)</td>
+            <td style="padding:8px 12px;"><code>.env</code> file</td>
+            <td style="padding:8px 12px;"><code>import.meta.env.VITE_VAR_NAME</code></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px;">Local (Node.js)</td>
+            <td style="padding:8px 12px;"><code>.env</code> file</td>
+            <td style="padding:8px 12px;"><code>process.env.VAR_NAME</code></td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;">Vercel</td>
+            <td style="padding:8px 12px;">Dashboard or <code>vercel env add</code></td>
+            <td style="padding:8px 12px;">Same as local - Vercel injects them</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="troubleshooting-section">
+      <h2 class="troubleshooting-label">Troubleshooting</h2>
+      <div class="trouble-list">
+
+        <div class="trouble-item">
+          <p class="trouble-error">Variable is <code>undefined</code> in Vite</p>
+          <p class="trouble-fix">Make sure it starts with <code>VITE_</code>. Restart the dev server after changing <code>.env</code>.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Works locally but not on Vercel</p>
+          <p class="trouble-fix">You haven't added the variable to Vercel yet. Check Settings → Environment Variables.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Accidentally committed .env</p>
+          <p class="trouble-fix">Remove it from Git history. Ask Claude: "I accidentally committed my .env file - how do I remove it from git history?"</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Not sure what variables you need</p>
+          <p class="trouble-fix">Check your <code>.env.example</code> file, or look for <code>import.meta.env</code> and <code>process.env</code> in your codebase.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER NAV -->
+  <footer class="guide-nav">
+    <div class="guide-nav-inner">
+      <a href="11-write-a-spec.html" class="nav-link">← Guide 11: Write a Spec</a>
+      <a href="13-connect-google-workspace-cli.html" class="nav-link">Guide 13: Google Workspace CLI →</a>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Write a Good CLAUDE.md — AISC How-To Guides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="logo-mark">[ ai study camp ]</span>
+      <a href="index.html" class="header-breadcrumb">How-To Guides →</a>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
+
+    <!-- HERO -->
+    <section class="guide-hero">
+      <div class="guide-badge">Guide 03</div>
+      <h1 class="guide-title">How to Write a Good CLAUDE.md</h1>
+      <p class="guide-subtitle">Create a CLAUDE.md that gives Claude Code the context it needs — and verify it's actually working.</p>
+    </section>
+
+    <!-- WHAT IS CLAUDE.md? -->
+    <section class="intro-section">
+      <h2>What Is CLAUDE.md?</h2>
+      <p>It's a file you put in your project's root folder. Claude Code reads it at the start of every session. Think of it as a briefing document — it tells Claude what this project is, how it's structured, and how you want it to behave.</p>
+    </section>
+
+    <!-- PREREQUISITES -->
+    <aside class="prereq-box">
+      <p class="prereq-label">Prerequisites</p>
+      <ul class="prereq-list">
+        <li>Claude Code installed and running — see <a href="01-install-claude-code.html">Guide 01</a> if you haven't done this yet</li>
+        <li>A project folder open in your terminal</li>
+      </ul>
+    </aside>
+
+    <!-- STEPS -->
+    <section class="steps-section">
+      <div class="steps-container">
+
+        <!-- Step 1 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">1</div>
+            <h2 class="step-title">Let Claude Generate a Starting Point</h2>
+          </div>
+          <div class="step-body">
+            <p>Before writing one from scratch, try this. Start Claude Code in your project folder and say:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">claude</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">Look at this project and create a CLAUDE.md for me based on what you see.</span>
+              </div>
+            </div>
+            <p>Claude will read your files and generate a starting point. You can edit from there — much faster than writing it cold.</p>
+            <div class="tip-box">
+              <span class="tip-label">Note</span>
+              <p>Claude Code may also have a built-in <code>/init</code> command that does this automatically. Try it and see if it works in your version.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">2</div>
+            <h2 class="step-title">Add the Three Core Sections</h2>
+          </div>
+          <div class="step-body">
+            <p>A good CLAUDE.md has three things: <strong>Identity</strong>, <strong>Rules</strong>, and <strong>Context</strong>.</p>
+
+            <p><strong>Identity</strong> — What is this project? One or two sentences.</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">CLAUDE.md</span>
+              </div>
+              <div class="term-body">
+<span class="out"># My Recipe App</span>
+<span class="gap"></span>
+<span class="out">A web app that helps people find recipes based on ingredients they have at home.</span>
+<span class="out">Built with React and Instant DB.</span>
+              </div>
+            </div>
+
+            <p><strong>Rules</strong> — How should Claude behave in this project?</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">CLAUDE.md</span>
+              </div>
+              <div class="term-body">
+<span class="out">## Rules</span>
+<span class="gap"></span>
+<span class="out">- Keep the UI simple and mobile-friendly</span>
+<span class="out">- Use Tailwind CSS for all styling</span>
+<span class="out">- Never delete existing recipes from the database without asking first</span>
+              </div>
+            </div>
+
+            <p><strong>Context</strong> — What does Claude need to know about the structure?</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">CLAUDE.md</span>
+              </div>
+              <div class="term-body">
+<span class="out">## Key Files</span>
+<span class="gap"></span>
+<span class="out">- `src/App.tsx` -- Main app component</span>
+<span class="out">- `src/db.ts` -- Database connection and queries</span>
+<span class="out">- `instant.schema.ts` -- Database schema</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">3</div>
+            <h2 class="step-title">Keep It Short — Use References Instead</h2>
+          </div>
+          <div class="step-body">
+            <p>Your CLAUDE.md doesn't need to contain everything. If some context only matters for one part of the project, put it in a separate file and reference it:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">CLAUDE.md</span>
+              </div>
+              <div class="term-body">
+<span class="out">## Context</span>
+<span class="gap"></span>
+<span class="out">See @docs/architecture.md for how the data layer works.</span>
+<span class="out">See @src/components/CLAUDE.md for component conventions.</span>
+              </div>
+            </div>
+            <p>The <code>@filename</code> syntax tells Claude to load that file too. This way your main CLAUDE.md stays lean and Claude only loads deep context when it's relevant.</p>
+            <div class="tip-box">
+              <span class="tip-label">Tip</span>
+              <p>Sub-folders can have their own CLAUDE.md too. Put component-specific rules in <code>src/components/CLAUDE.md</code> and they'll load when Claude is working in that folder.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">4</div>
+            <h2 class="step-title">Verify Claude Actually Read It</h2>
+          </div>
+          <div class="step-body">
+            <p>Don't assume Claude loaded your CLAUDE.md. At the start of a session, ask:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">claude</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">What does my CLAUDE.md say?</span>
+              </div>
+            </div>
+            <p>If Claude can summarize it accurately, it's loaded. If it hesitates or gets it wrong, your file might be in the wrong location or have a syntax issue.</p>
+            <div class="visual-placeholder">
+              <span class="visual-icon">⬚</span>
+              <span class="visual-label">Screenshot or screen recording</span>
+            </div>
+            <p class="visual-caption">A simple CLAUDE.md file open in VS Code, showing the three sections</p>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">5</div>
+            <h2 class="step-title">Keep It Updated</h2>
+          </div>
+          <div class="step-body">
+            <p>Every time you find yourself correcting Claude about the same thing, add it to CLAUDE.md. You can also just tell Claude:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">claude</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">Add a rule to CLAUDE.md: always use early returns instead of nested if statements</span>
+              </div>
+            </div>
+            <p>It will update the file for you.</p>
+
+            <p><strong>Bad:</strong> "This is a project. Please help me."</p>
+            <p><strong>Good:</strong> "A personal budget tracker built with React. Use Tailwind for styling. The main data lives in <code>src/data/transactions.ts</code>. Never mock data — always use the real Instant DB."</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="troubleshooting-section">
+      <h2 class="troubleshooting-label">Troubleshooting</h2>
+      <div class="trouble-list">
+
+        <div class="trouble-item">
+          <p class="trouble-error">Claude keeps forgetting my preferences</p>
+          <p class="trouble-fix">Make sure your CLAUDE.md is in the project root (same level as <code>package.json</code>), not inside a subfolder.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Claude ignores a rule</p>
+          <p class="trouble-fix">Be more specific. "Write clean code" is vague. "Use early returns instead of nested if statements" is actionable.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">File is getting too long</p>
+          <p class="trouble-fix">If it's over 50 lines, use <code>@references</code> to split context into separate files. Keep the main CLAUDE.md to rules and structure only.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Not sure it loaded</p>
+          <p class="trouble-fix">Ask Claude "What does my CLAUDE.md say?" to confirm.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER NAV -->
+  <footer class="guide-nav">
+    <div class="guide-nav-inner">
+      <a href="02-install-a-skill.html" class="nav-link">← Guide 02: Install a Skill</a>
+      <a href="04-git-basics.html" class="nav-link">Guide 04: Git Basics →</a>
+    </div>
+  </footer>
+
+</body>
+</html>

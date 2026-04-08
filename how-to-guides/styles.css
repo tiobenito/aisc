@@ -1,0 +1,647 @@
+/* ========================================
+   AISC How-To Guides — Shared Stylesheet
+   ======================================== */
+
+:root {
+  --cream:        #F5F0EB;
+  --cream-light:  #FAF7F4;
+  --cream-dark:   #EBE5DE;
+  --white:        #FFFFFF;
+  --dark:         #1C1917;
+  --dark-card:    #292522;
+
+  --text:               #1C1917;
+  --text-secondary:     #78716C;
+  --text-muted:         #A8A29E;
+  --text-on-dark:       #F5F3EF;
+  --text-on-dark-muted: #A8A29E;
+
+  --teal:        #0D9488;
+  --teal-light:  #14B8A6;
+  --teal-dark:   #0F766E;
+  --teal-muted:  #5EAAA6;
+  --teal-bg:     rgba(13, 148, 136, 0.08);
+  --teal-border: rgba(13, 148, 136, 0.3);
+
+  --border:        rgba(28, 25, 23, 0.1);
+  --border-strong: rgba(28, 25, 23, 0.18);
+
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans:  'Geist', system-ui, sans-serif;
+  --font-mono:  'Geist Mono', monospace;
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ---- Base ---- */
+html { font-size: 16px; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+}
+
+a { color: var(--teal); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+strong { font-weight: 600; }
+
+p { margin-bottom: 16px; }
+p:last-child { margin-bottom: 0; }
+
+ul { list-style: none; }
+
+/* Inline code */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(28, 25, 23, 0.06);
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: var(--text);
+}
+
+/* ========================================
+   LAYOUT
+   ======================================== */
+
+.page-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 24px 100px;
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.site-header {
+  background: var(--cream-light);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.header-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-mark {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal-muted);
+  letter-spacing: 0.02em;
+  user-select: none;
+}
+
+.header-breadcrumb {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.header-breadcrumb:hover {
+  color: var(--teal);
+  text-decoration: none;
+}
+
+/* ========================================
+   GUIDE HERO
+   ======================================== */
+
+.guide-hero {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 40px 48px;
+  margin-bottom: 32px;
+  box-shadow: 0 1px 3px rgba(28, 25, 23, 0.06);
+}
+
+.guide-badge {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: var(--teal-bg);
+  color: var(--teal-dark);
+  border: 1px solid var(--teal-border);
+  margin-bottom: 16px;
+}
+
+.guide-title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(26px, 4vw, 38px);
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+.guide-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* ========================================
+   PREREQUISITES
+   ======================================== */
+
+.prereq-box {
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 40px;
+}
+
+.prereq-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.prereq-list li {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding: 3px 0 3px 18px;
+  position: relative;
+}
+.prereq-list li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--teal);
+  font-weight: 600;
+}
+
+/* ========================================
+   STEPS
+   ======================================== */
+
+.steps-section {
+  margin-bottom: 48px;
+}
+
+.steps-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Teal connector line — matches deck's .pipeline::before */
+.steps-container::before {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 40px;
+  bottom: 40px;
+  width: 2px;
+  background: var(--teal-muted);
+  opacity: 0.35;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* Teal numbered circle — matches deck's .pipe-num */
+.step-circle {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: var(--white);
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.step-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.step-body {
+  padding-left: 56px; /* 40px circle + 16px gap */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.step-body p {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+/* ========================================
+   TERMINAL — matches deck's .terminal
+   ======================================== */
+
+.terminal {
+  width: 100%;
+  background: var(--dark);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 16px;
+  background: var(--dark-card);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.term-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.term-dot.r { background: #e25454; }
+.term-dot.y { background: #d4924a; }
+.term-dot.g { background: var(--teal-muted); }
+
+.term-title {
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-on-dark-muted);
+  margin-right: 40px;
+  font-family: var(--font-sans);
+}
+
+.term-body {
+  padding: 18px 24px 22px;
+  color: #8A8478;
+  overflow-x: auto;
+}
+
+.term-body .cmd {
+  display: block;
+  color: var(--teal);
+}
+.term-body .out {
+  display: block;
+  color: #8A8478;
+}
+.term-body .gap {
+  display: block;
+  height: 8px;
+}
+
+/* ========================================
+   TIP / CALLOUT BOX
+   ======================================== */
+
+.tip-box {
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  border-left: 3px solid rgba(13, 148, 136, 0.5);
+  border-radius: 8px;
+  padding: 14px 20px;
+}
+
+.tip-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+
+.tip-box p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* ========================================
+   VISUAL PLACEHOLDER
+   ======================================== */
+
+.visual-placeholder {
+  border: 2px dashed rgba(13, 148, 136, 0.35);
+  border-radius: 8px;
+  background: rgba(13, 148, 136, 0.03);
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-muted);
+}
+
+.visual-icon {
+  font-size: 28px;
+  opacity: 0.5;
+}
+
+.visual-label {
+  font-size: 13px;
+  font-style: italic;
+}
+
+.visual-caption {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* ========================================
+   SECTION DIVIDER
+   ======================================== */
+
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 40px 0;
+}
+
+/* ========================================
+   INTRO SECTION (for guides with preamble)
+   ======================================== */
+
+.intro-section {
+  margin-bottom: 32px;
+}
+
+.intro-section h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.intro-section p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ========================================
+   TROUBLESHOOTING
+   ======================================== */
+
+.troubleshooting-section {
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.troubleshooting-label {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+
+.trouble-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.trouble-item {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.trouble-item:first-child { padding-top: 0; }
+.trouble-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.trouble-error {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.trouble-fix {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* ========================================
+   GUIDE NAV FOOTER
+   ======================================== */
+
+.guide-nav {
+  border-top: 1px solid var(--border);
+  margin-top: 64px;
+}
+
+.guide-nav-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.nav-link:hover {
+  border-color: rgba(13, 148, 136, 0.4);
+  color: var(--teal);
+  text-decoration: none;
+}
+
+.nav-placeholder { flex: 1; }
+
+/* ========================================
+   INDEX PAGE
+   ======================================== */
+
+.index-hero {
+  padding: 48px 0 40px;
+}
+
+.index-title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+.index-subtitle {
+  font-size: 17px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.guide-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.guide-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 24px;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(28, 25, 23, 0.04);
+}
+.guide-card:hover {
+  border-color: rgba(13, 148, 136, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(13, 148, 136, 0.1);
+  text-decoration: none;
+}
+
+.card-badge {
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background: var(--teal-bg);
+  color: var(--teal-dark);
+  border: 1px solid var(--teal-border);
+  white-space: nowrap;
+  margin-top: 3px;
+}
+
+.card-text { flex: 1; }
+
+.card-title {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.card-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.index-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 48px;
+  padding-top: 32px;
+  padding-bottom: 48px;
+  text-align: center;
+}
+
+.index-footer .logo-mark {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.index-footer p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ========================================
+   MOBILE
+   ======================================== */
+
+@media (max-width: 640px) {
+  .page-content { padding: 24px 16px 80px; }
+  .header-inner { padding: 0 16px; }
+
+  .guide-hero { padding: 28px 24px; }
+
+  .step-body { padding-left: 0; }
+  .steps-container::before { display: none; }
+
+  .guide-nav-inner {
+    padding: 24px 16px 40px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .nav-link { flex: 1; justify-content: center; text-align: center; }
+}

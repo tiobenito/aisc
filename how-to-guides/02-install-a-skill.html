@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Download and Install a Skill — AISC How-To Guides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="logo-mark">[ ai study camp ]</span>
+      <a href="index.html" class="header-breadcrumb">How-To Guides →</a>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
+
+    <!-- HERO -->
+    <section class="guide-hero">
+      <div class="guide-badge">Guide 02</div>
+      <h1 class="guide-title">How to Download and Install a Skill</h1>
+      <p class="guide-subtitle">Get a shared skill onto your machine and into Claude Code so it's available in every session.</p>
+    </section>
+
+    <!-- WHAT'S A SKILL? -->
+    <div class="intro-section">
+      <h2>What's a Skill?</h2>
+      <p>A skill is a reusable instruction file that teaches Claude Code how to do a specific task. Someone builds it once, and anyone can install it. Skills live in <code>~/.claude/skills/</code> on your computer.</p>
+    </div>
+
+    <!-- PREREQUISITES -->
+    <aside class="prereq-box">
+      <p class="prereq-label">Prerequisites</p>
+      <ul class="prereq-list">
+        <li>Claude Code installed and working — see <a href="01-install-claude-code.html">Guide 01</a></li>
+        <li>A terminal you're comfortable typing commands into</li>
+        <li>A skill to install — either a GitHub link or a zip file from your instructor</li>
+      </ul>
+    </aside>
+
+    <!-- HOW TO GET A SKILL -->
+    <div class="intro-section" style="margin-bottom: 8px;">
+      <h2>Option A: Install from GitHub (most common)</h2>
+      <p>If your instructor shares a GitHub link, clone it directly in your terminal:</p>
+    </div>
+
+    <div class="terminal">
+      <div class="term-bar">
+        <span class="term-dot r"></span>
+        <span class="term-dot y"></span>
+        <span class="term-dot g"></span>
+        <span class="term-title">zsh</span>
+      </div>
+      <div class="term-body">
+<span class="cmd">$ git clone https://github.com/[username]/[repo-name]</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 16px;">
+      <p style="font-size: 15px; color: var(--text-secondary);">Example — the AISC skill-builder:</p>
+    </div>
+
+    <div class="terminal">
+      <div class="term-bar">
+        <span class="term-dot r"></span>
+        <span class="term-dot y"></span>
+        <span class="term-dot g"></span>
+        <span class="term-title">zsh</span>
+      </div>
+      <div class="term-body">
+<span class="cmd">$ git clone https://github.com/tiobenito/aisc</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 16px;">
+      <p style="font-size: 15px; color: var(--text-secondary);">This downloads the whole repo to your current folder. You'll see a new folder appear.</p>
+    </div>
+
+    <div class="tip-box" style="margin-top: 8px;">
+      <span class="tip-label">Tip</span>
+      <p>Not sure which folder you're in? Type <code>pwd</code> in your terminal to see.</p>
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="intro-section" style="margin-bottom: 8px;">
+      <h2>Option B: Download as a zip</h2>
+      <p>If you don't want to use git:</p>
+    </div>
+
+    <div class="steps-section">
+      <div class="steps-container">
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">1</div>
+            <h2 class="step-title">Go to the GitHub repo in your browser</h2>
+          </div>
+          <div class="step-body">
+            <p>Open the link your instructor shared.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">2</div>
+            <h2 class="step-title">Click the green Code button → Download ZIP</h2>
+          </div>
+          <div class="step-body">
+            <p>Look for the green <strong>Code</strong> button near the top of the page. Click it, then choose <strong>Download ZIP</strong> from the dropdown.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">3</div>
+            <h2 class="step-title">Unzip the file</h2>
+          </div>
+          <div class="step-body">
+            <p>Double-click the downloaded <code>.zip</code> file to extract it — you'll get a folder on your computer, usually in Downloads.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- INSTALL THE SKILL -->
+    <div class="intro-section">
+      <h2>Install the Skill</h2>
+      <p>Once you have the folder, move it into Claude's skills directory. Follow these steps in order.</p>
+    </div>
+
+    <section class="steps-section">
+      <div class="steps-container">
+
+        <!-- Step 1 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">1</div>
+            <h2 class="step-title">Find the SKILL.md file</h2>
+          </div>
+          <div class="step-body">
+            <p>Navigate into the folder you downloaded. Somewhere inside is a <code>SKILL.md</code> file — that's the skill. It might be at the top level, or inside a subfolder.</p>
+            <p>Example: if you cloned the <code>aisc</code> repo, the skill-builder is at <code>aisc/skill-builder/SKILL.md</code>.</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">2</div>
+            <h2 class="step-title">Move the skill folder into <code>~/.claude/skills/</code></h2>
+          </div>
+          <div class="step-body">
+            <p>The folder containing <code>SKILL.md</code> is what you're installing. Copy it into Claude's skills directory:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ cp -r path/to/skill-name ~/.claude/skills/skill-name</span>
+              </div>
+            </div>
+            <p>Concrete example:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ cp -r aisc/skill-builder ~/.claude/skills/skill-builder</span>
+              </div>
+            </div>
+            <p>If <code>~/.claude/skills/</code> doesn't exist yet:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ mkdir -p ~/.claude/skills/</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">3</div>
+            <h2 class="step-title">Verify the structure</h2>
+          </div>
+          <div class="step-body">
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ ls ~/.claude/skills/skill-builder/</span>
+<span class="out">SKILL.md</span>
+              </div>
+            </div>
+            <p>You should see <code>SKILL.md</code> inside. If it's nested one more level deep, move it up — Claude won't find it otherwise.</p>
+            <div class="visual-placeholder">
+              <span class="visual-icon">⬚</span>
+              <span class="visual-label">Screenshot or screen recording</span>
+            </div>
+            <p class="visual-caption">Terminal showing SKILL.md inside the skill folder</p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">4</div>
+            <h2 class="step-title">Test it</h2>
+          </div>
+          <div class="step-body">
+            <p>Start Claude Code in any project and try a phrase that should trigger the skill. Check the <code>SKILL.md</code> description field for the trigger phrases to use.</p>
+            <p>If Claude responds with the skill's behavior, you're good.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="troubleshooting-section">
+      <h2 class="troubleshooting-label">Troubleshooting</h2>
+      <div class="trouble-list">
+
+        <div class="trouble-item">
+          <p class="trouble-error">Skill doesn't trigger</p>
+          <p class="trouble-fix">Make sure the folder is directly inside <code>~/.claude/skills/</code>, not nested an extra level. The path should be <code>~/.claude/skills/[skill-name]/SKILL.md</code>.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">"No skill found"</p>
+          <p class="trouble-fix">The file must be named exactly <code>SKILL.md</code> — capital S, capital MD. Rename it if needed.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Skill runs but behaves wrong</p>
+          <p class="trouble-fix">Read the <code>SKILL.md</code> file to see if it has prerequisites or setup instructions you missed.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Permission error on copy</p>
+          <p class="trouble-fix">Try <code>sudo cp -r ...</code> and enter your password when prompted.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER NAV -->
+  <footer class="guide-nav">
+    <div class="guide-nav-inner">
+      <a href="01-install-claude-code.html" class="nav-link">← Guide 01: Install Claude Code</a>
+      <a href="03-write-a-claude-md.html" class="nav-link">Guide 03: Write a CLAUDE.md →</a>
+    </div>
+  </footer>
+
+</body>
+</html>

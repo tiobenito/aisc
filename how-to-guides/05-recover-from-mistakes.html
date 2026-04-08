@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Recover When Things Break — AISC How-To Guides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="logo-mark">[ ai study camp ]</span>
+      <a href="index.html" class="header-breadcrumb">How-To Guides →</a>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
+
+    <!-- HERO -->
+    <section class="guide-hero">
+      <div class="guide-badge">Guide 05</div>
+      <h1 class="guide-title">How to Recover When Things Break</h1>
+      <p class="guide-subtitle">How to undo mistakes — starting with asking Claude directly, and falling back to terminal commands when needed.</p>
+    </section>
+
+    <!-- PREREQUISITES -->
+    <aside class="prereq-box">
+      <p class="prereq-label">Prerequisites</p>
+      <ul class="prereq-list">
+        <li>Claude Code installed and running — see Guide 01</li>
+        <li>A project with at least one Git commit</li>
+      </ul>
+    </aside>
+
+    <!-- BEFORE YOU PANIC -->
+    <section class="intro-section">
+      <h2>Before You Panic</h2>
+      <p>Almost nothing is truly lost. Claude Code works with Git underneath, which means there are save points to go back to. Take a breath and pick the right approach below.</p>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- THE CLAUDE WAY -->
+    <section class="intro-section">
+      <h2>The Easy Way: Ask Claude</h2>
+      <p>If you're already in a Claude Code session, just ask. Claude can run Git commands for you — you don't need to know the exact command.</p>
+    </section>
+
+    <section class="steps-section">
+      <div class="steps-container">
+
+        <!-- Step 1 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">1</div>
+            <h2 class="step-title">Undo the last set of changes</h2>
+          </div>
+          <div class="step-body">
+            <p>Type this directly into Claude Code:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">claude</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">Undo the changes you just made</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">2</div>
+            <h2 class="step-title">Revert a specific file</h2>
+          </div>
+          <div class="step-body">
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">claude</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">Revert App.tsx to how it was before</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">3</div>
+            <h2 class="step-title">Go back to a specific point</h2>
+          </div>
+          <div class="step-body">
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">claude</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">Can you show me recent commits? I want to go back to before we added authentication.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">4</div>
+            <h2 class="step-title">When the whole thing is a mess</h2>
+          </div>
+          <div class="step-body">
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">claude</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">Something went wrong and I want to start fresh from the last commit. What should we do?</span>
+              </div>
+            </div>
+            <p>Claude will figure out the right Git commands and run them. If it's not sure, it'll ask you before doing anything destructive.</p>
+            <div class="tip-box">
+              <span class="tip-label">Tip</span>
+              <p>Claude keeps a running history of the changes it made in a session. If something went wrong, telling it "that broke something, undo the last change" is often enough.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- THE TERMINAL WAY -->
+    <section class="intro-section">
+      <h2>The Terminal Way (if you're outside Claude)</h2>
+      <p>If you're not in a Claude session or want to do it yourself, here are the commands.</p>
+    </section>
+
+    <section class="steps-section">
+      <div class="steps-container">
+
+        <!-- Step 1 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">1</div>
+            <h2 class="step-title">Undo everything — changes not committed yet</h2>
+          </div>
+          <div class="step-body">
+            <p>This saves your changes in a hidden stash and reverts your files to the last commit. Your work isn't gone — it's tucked away.</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ git stash</span>
+              </div>
+            </div>
+            <p>To bring it back:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ git stash pop</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">2</div>
+            <h2 class="step-title">Undo changes to one specific file</h2>
+          </div>
+          <div class="step-body">
+            <p>This resets that one file to the last commit. Everything else stays the same.</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ git checkout -- src/App.tsx</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">3</div>
+            <h2 class="step-title">Undo a bad commit</h2>
+          </div>
+          <div class="step-body">
+            <p>This undoes your last commit but keeps your file changes. Fix things and commit again.</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ git reset --soft HEAD~1</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">4</div>
+            <h2 class="step-title">Go back to an older commit</h2>
+          </div>
+          <div class="step-body">
+            <p>First, find the short hash (like <code>abc1234</code>) from before things broke:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ git log --oneline</span>
+              </div>
+            </div>
+            <div class="visual-placeholder">
+              <span class="visual-icon">⬚</span>
+              <span class="visual-label">Screenshot or screen recording</span>
+            </div>
+            <p class="visual-caption">Terminal showing git log with commit hashes</p>
+            <p>Then create a recovery branch from that point:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ git checkout -b recovery abc1234</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- THE GOLDEN RULE -->
+    <section class="intro-section">
+      <h2>The Golden Rule</h2>
+      <p><strong>Commit often.</strong> The more commits you have, the more save points you can go back to. Commit every time something works — even small things. If you do that, recovery is always easy.</p>
+    </section>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="troubleshooting-section">
+      <h2 class="troubleshooting-label">Troubleshooting</h2>
+      <div class="trouble-list">
+
+        <div class="trouble-item">
+          <p class="trouble-error">Not sure what happened</p>
+          <p class="trouble-fix">Ask Claude "show me what changed since the last commit" or run <code>git status</code> in the terminal.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Claude isn't sure what to undo</p>
+          <p class="trouble-fix">Be specific: "undo the changes to App.tsx" rather than "fix this."</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Stash seems empty</p>
+          <p class="trouble-fix">Check <code>git stash list</code> to see all your stashes.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER NAV -->
+  <footer class="guide-nav">
+    <div class="guide-nav-inner">
+      <a href="04-git-basics.html" class="nav-link">← Guide 04: Git Basics</a>
+      <a href="06-keep-claude-focused.html" class="nav-link">Guide 06: Context Management →</a>
+    </div>
+  </footer>
+
+</body>
+</html>

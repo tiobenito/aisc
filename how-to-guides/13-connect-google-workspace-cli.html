@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Connect the Google Workspace CLI — AISC How-To Guides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="logo-mark">[ ai study camp ]</span>
+      <a href="index.html" class="header-breadcrumb">How-To Guides →</a>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
+
+    <!-- HERO -->
+    <section class="guide-hero">
+      <div class="guide-badge">Guide 13</div>
+      <h1 class="guide-title">How to Connect the Google Workspace CLI</h1>
+      <p class="guide-subtitle">Install the gws CLI and connect it to your Google accounts so you can read email, calendar, Drive, Sheets, and more — all from the terminal.</p>
+    </section>
+
+    <!-- WHAT THIS IS GOOD FOR -->
+    <div class="intro-section">
+      <h2>What This Is Good For</h2>
+      <p>Once set up, <code>gws</code> gives Claude and your scripts direct access to your Google data:</p>
+      <ul>
+        <li><strong>Gmail</strong> - read emails, search your inbox, check threads</li>
+        <li><strong>Calendar</strong> - list events, check your schedule</li>
+        <li><strong>Drive</strong> - search files, list folders</li>
+        <li><strong>Sheets</strong> - read spreadsheet data</li>
+        <li><strong>Docs, Tasks, Keep, and more</strong></li>
+      </ul>
+      <p>You can connect multiple accounts (personal + work) and switch between them with a single env var.</p>
+    </div>
+
+    <!-- STEPS -->
+    <section class="steps-section">
+      <div class="steps-container">
+
+        <!-- Step 1 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">1</div>
+            <h2 class="step-title">Install gws</h2>
+          </div>
+          <div class="step-body">
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ brew install googleworkspace-cli</span>
+              </div>
+            </div>
+            <p>Verify:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ gws --version</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">2</div>
+            <h2 class="step-title">Install the Google Cloud CLI</h2>
+          </div>
+          <div class="step-body">
+            <p><code>gws auth setup</code> uses <code>gcloud</code> under the hood to configure your GCP project and OAuth credentials. You need it installed first:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ brew install google-cloud-sdk</span>
+              </div>
+            </div>
+            <p>Log in:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ gcloud auth login</span>
+              </div>
+            </div>
+            <p>This opens a browser once so Google can verify your identity. Come back to the terminal after.</p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">3</div>
+            <h2 class="step-title">Set up your first account</h2>
+          </div>
+          <div class="step-body">
+            <p>Run the setup command. It handles creating a GCP project, enabling APIs, and configuring OAuth all at once:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ gws auth setup --login</span>
+              </div>
+            </div>
+            <p>Follow the prompts. It will:</p>
+            <ol>
+              <li>Create or select a GCP project</li>
+              <li>Enable the Google Workspace APIs</li>
+              <li>Open a browser to authorize your Google account</li>
+              <li>Save encrypted credentials locally</li>
+            </ol>
+            <div class="tip-box">
+              <span class="tip-label">Tip</span>
+              <p>Use <code>--login --readonly</code> if you only need to read data (no sending email, no edits). Read-only reduces the permission surface and avoids the "unverified app" warning from Google.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">4</div>
+            <h2 class="step-title">Add a second account (optional)</h2>
+          </div>
+          <div class="step-body">
+            <p>To connect a second account (work or personal), create a separate config directory for it and run setup pointing to that directory:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ mkdir -p ~/.config/gws-work</span>
+<span class="gap"></span>
+<span class="cmd">$ GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-work gws auth setup --login --readonly</span>
+              </div>
+            </div>
+            <p>Do the same for a personal account if needed:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ mkdir -p ~/.config/gws-personal</span>
+<span class="gap"></span>
+<span class="cmd">$ GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-personal gws auth setup --login --readonly</span>
+              </div>
+            </div>
+            <p>Each account stores its own credentials, token cache, and client config in its directory. They don't interfere with each other.</p>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">5</div>
+            <h2 class="step-title">Switching between accounts</h2>
+          </div>
+          <div class="step-body">
+            <p>Set the <code>GOOGLE_WORKSPACE_CLI_CONFIG_DIR</code> env var before any <code>gws</code> command to pick which account it uses:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd"># Work email</span>
+<span class="cmd">$ GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-work gws gmail users messages list --params '{"userId": "me", "maxResults": 5}'</span>
+<span class="gap"></span>
+<span class="cmd"># Personal calendar</span>
+<span class="cmd">$ GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-personal gws calendar events list --params '{"calendarId": "primary", "singleEvents": true}'</span>
+              </div>
+            </div>
+            <div class="tip-box">
+              <span class="tip-label">Tip</span>
+              <p>Add shell aliases to your <code>~/.zshrc</code> to avoid retyping the env var:</p>
+            </div>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">~/.zshrc</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">alias gwswork='GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-work gws'</span>
+<span class="cmd">alias gwspersonal='GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-personal gws'</span>
+              </div>
+            </div>
+            <p>Then use <code>gwswork gmail ...</code> and <code>gwspersonal calendar ...</code>.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- COMMON COMMANDS -->
+    <div class="intro-section">
+      <h2>Useful CLI Commands</h2>
+      <div class="terminal">
+        <div class="term-bar">
+          <span class="term-dot r"></span>
+          <span class="term-dot y"></span>
+          <span class="term-dot g"></span>
+          <span class="term-title">zsh</span>
+        </div>
+        <div class="term-body">
+<span class="cmd"># List recent emails</span>
+<span class="cmd">$ gws gmail users messages list --params '{"userId": "me", "maxResults": 10}'</span>
+<span class="gap"></span>
+<span class="cmd"># Search inbox</span>
+<span class="cmd">$ gws gmail users messages list --params '{"userId": "me", "q": "is:unread"}'</span>
+<span class="gap"></span>
+<span class="cmd"># Today's calendar events</span>
+<span class="cmd">$ gws calendar events list --params '{"calendarId": "primary", "timeMin": "2026-04-08T00:00:00Z", "timeMax": "2026-04-08T23:59:59Z", "singleEvents": true, "orderBy": "startTime"}'</span>
+<span class="gap"></span>
+<span class="cmd"># List Drive files</span>
+<span class="cmd">$ gws drive files list --params '{"pageSize": 20}'</span>
+<span class="gap"></span>
+<span class="cmd"># Read a spreadsheet</span>
+<span class="cmd">$ gws sheets spreadsheets.values get --params '{"spreadsheetId": "YOUR_SHEET_ID", "range": "Sheet1!A1:D10"}'</span>
+<span class="gap"></span>
+<span class="cmd"># Check auth status</span>
+<span class="cmd">$ gws auth status</span>
+<span class="gap"></span>
+<span class="cmd"># Explore what a command accepts</span>
+<span class="cmd">$ gws schema gmail.users.messages.list</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="troubleshooting-section">
+      <h2 class="troubleshooting-label">Troubleshooting</h2>
+      <div class="trouble-list">
+
+        <div class="trouble-item">
+          <p class="trouble-error">"restricted_client" error during login</p>
+          <p class="trouble-fix">Your OAuth app hasn't been verified by Google. Use <code>--readonly</code> flag (less permissive = less scrutiny) or add your email as a test user in the GCP Console under OAuth consent screen.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">"gws: command not found"</p>
+          <p class="trouble-fix">Close and reopen your terminal after installing.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Wrong account used</p>
+          <p class="trouble-fix">Check if <code>GOOGLE_WORKSPACE_CLI_CONFIG_DIR</code> is set in your shell. Run <code>gws auth status</code> to see which account is active.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Token expired</p>
+          <p class="trouble-fix">Run <code>gws auth login</code> in the relevant config directory to refresh.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Setup fails</p>
+          <p class="trouble-fix">Make sure <code>gcloud auth login</code> succeeded first and you have a GCP project available.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER NAV -->
+  <footer class="guide-nav">
+    <div class="guide-nav-inner">
+      <a href="12-manage-api-keys.html" class="nav-link">← Guide 12: Manage API Keys</a>
+      <span class="nav-placeholder"></span>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git Basics Without Fear — AISC How-To Guides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="logo-mark">[ ai study camp ]</span>
+      <a href="index.html" class="header-breadcrumb">How-To Guides →</a>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
+
+    <!-- HERO -->
+    <section class="guide-hero">
+      <div class="guide-badge">Guide 04</div>
+      <h1 class="guide-title">Git Basics Without Fear</h1>
+      <p class="guide-subtitle">The 5 Git commands you'll use 95% of the time. That's it.</p>
+    </section>
+
+    <!-- PREREQUISITES -->
+    <aside class="prereq-box">
+      <p class="prereq-label">Prerequisites</p>
+      <ul class="prereq-list">
+        <li>A project folder on your computer</li>
+        <li>Git installed — check by running <code>git --version</code> in your terminal</li>
+        <li>A GitHub account — sign up at <a href="https://github.com">github.com</a></li>
+      </ul>
+    </aside>
+
+    <!-- WHY GIT? -->
+    <div class="intro-section">
+      <h2>Why Git?</h2>
+      <p>Git saves snapshots of your code so you can go back if something breaks. Think of it like version history in Google Docs, but for your entire project.</p>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- STEPS -->
+    <section class="steps-section">
+      <div class="steps-container">
+
+        <!-- Step 1 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">1</div>
+            <h2 class="step-title">git init — Start tracking a project</h2>
+          </div>
+          <div class="step-body">
+            <p>Run this once in a new project folder:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ cd ~/my-project</span>
+<span class="cmd">$ git init</span>
+              </div>
+            </div>
+            <p>This creates a hidden <code>.git</code> folder. You'll never need to touch it.</p>
+            <div class="visual-placeholder">
+              <span class="visual-icon">⬚</span>
+              <span class="visual-label">Screenshot or screen recording</span>
+            </div>
+            <p class="visual-caption">Terminal showing git init output</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">2</div>
+            <h2 class="step-title">git add — Stage your changes</h2>
+          </div>
+          <div class="step-body">
+            <p>Tell Git which files you want to save:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ git add .</span>
+              </div>
+            </div>
+            <p>The <code>.</code> means "everything that changed." You can also add specific files:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ git add src/App.tsx</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">3</div>
+            <h2 class="step-title">git commit — Save a snapshot</h2>
+          </div>
+          <div class="step-body">
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ git commit -m "add login page"</span>
+              </div>
+            </div>
+            <p>The message in quotes describes what you changed. Keep it short and descriptive.</p>
+            <div class="tip-box">
+              <span class="tip-label">Tip</span>
+              <p>Think of commits like save points in a video game. Commit often — every time something works.</p>
+            </div>
+            <div class="visual-placeholder">
+              <span class="visual-icon">⬚</span>
+              <span class="visual-label">Screenshot or screen recording</span>
+            </div>
+            <p class="visual-caption">Terminal showing git add and git commit sequence</p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">4</div>
+            <h2 class="step-title">git push — Upload to GitHub</h2>
+          </div>
+          <div class="step-body">
+            <p>After committing, push your code to GitHub so it's backed up online:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ git push</span>
+              </div>
+            </div>
+            <p>If it's your first push, Git will tell you what to run instead. Just copy-paste that command.</p>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">5</div>
+            <h2 class="step-title">git pull — Download the latest changes</h2>
+          </div>
+          <div class="step-body">
+            <p>If someone else (or you from another computer) pushed changes:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ git pull</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 6 (Bonus) -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">6</div>
+            <h2 class="step-title">git status — See what's going on</h2>
+          </div>
+          <div class="step-body">
+            <p>When you're confused, this is your best friend:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ git status</span>
+              </div>
+            </div>
+            <p>It shows what files changed, what's staged, and what's not committed yet.</p>
+            <div class="visual-placeholder">
+              <span class="visual-icon">⬚</span>
+              <span class="visual-label">Screenshot or screen recording</span>
+            </div>
+            <p class="visual-caption">Terminal showing git status with some modified and staged files</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- THE WORKFLOW -->
+    <div class="intro-section">
+      <h2>The Workflow (Every Time)</h2>
+      <p>Four steps. Repeat forever.</p>
+      <ol style="list-style: decimal; padding-left: 22px; margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+        <li style="font-size: 15px; color: var(--text-secondary); line-height: 1.6;">Make changes to your code</li>
+        <li style="font-size: 15px; color: var(--text-secondary); line-height: 1.6;"><code>git add .</code></li>
+        <li style="font-size: 15px; color: var(--text-secondary); line-height: 1.6;"><code>git commit -m "describe what you did"</code></li>
+        <li style="font-size: 15px; color: var(--text-secondary); line-height: 1.6;"><code>git push</code></li>
+      </ol>
+    </div>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="troubleshooting-section">
+      <h2 class="troubleshooting-label">Troubleshooting</h2>
+      <div class="trouble-list">
+
+        <div class="trouble-item">
+          <p class="trouble-error">"fatal: not a git repository"</p>
+          <p class="trouble-fix">You need to run <code>git init</code> first, or you're in the wrong folder.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Push fails with "rejected"</p>
+          <p class="trouble-fix">Run <code>git pull</code> first to get the latest changes, then try <code>git push</code> again.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Accidentally committed something wrong</p>
+          <p class="trouble-fix">Don't panic. See <a href="05-recover-from-mistakes.html">Guide 05: Recover From Mistakes</a> for step-by-step help.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER NAV -->
+  <footer class="guide-nav">
+    <div class="guide-nav-inner">
+      <a href="03-write-a-claude-md.html" class="nav-link">← Guide 03: Write a CLAUDE.md</a>
+      <a href="05-recover-from-mistakes.html" class="nav-link">Guide 05: Recover From Mistakes →</a>
+    </div>
+  </footer>
+
+</body>
+</html>

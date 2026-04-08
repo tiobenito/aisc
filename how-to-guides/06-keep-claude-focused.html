@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Context Management in Claude Code — AISC How-To Guides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="logo-mark">[ ai study camp ]</span>
+      <a href="index.html" class="header-breadcrumb">How-To Guides →</a>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
+
+    <!-- HERO -->
+    <section class="guide-hero">
+      <div class="guide-badge">Guide 06</div>
+      <h1 class="guide-title">Context Management in Claude Code</h1>
+      <p class="guide-subtitle">Three Claude Code-specific habits that keep sessions clean and prevent Claude from getting confused.</p>
+    </section>
+
+    <!-- WHY CONTEXT MATTERS -->
+    <section class="intro-section">
+      <h2>Why Context Matters</h2>
+      <p>Claude Code keeps a running memory of everything said in a session — every file it read, every change it made, every decision you discussed. This is powerful, but it can work against you: if you've been debugging one feature for an hour and then switch to building something new, Claude is still carrying all that old context. It can bleed into your new work in subtle ways.</p>
+      <p>These three habits prevent that.</p>
+    </section>
+
+    <!-- STEPS -->
+    <section class="steps-section">
+      <div class="steps-container">
+
+        <!-- Step 1 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">1</div>
+            <h2 class="step-title">Use <code>/clear</code> When Switching Topics</h2>
+          </div>
+          <div class="step-body">
+            <p>When you finish one task and start something unrelated, clear Claude's memory:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">claude</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">/clear</span>
+              </div>
+            </div>
+            <p>This resets the session. Claude goes back to reading only your <code>CLAUDE.md</code> and the files you explicitly show it.</p>
+            <p><strong>When to use it:</strong></p>
+            <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 6px;">
+              <li style="font-size: 15px; color: var(--text); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> You just fixed a bug and now want to build a new feature</li>
+              <li style="font-size: 15px; color: var(--text); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> You finished the backend and are starting the frontend</li>
+              <li style="font-size: 15px; color: var(--text); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> The conversation has gotten long and confusing</li>
+            </ul>
+            <div class="tip-box">
+              <span class="tip-label">Tip</span>
+              <p>You don't need <code>/clear</code> between small related tasks. Use it when you're genuinely starting something new.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">2</div>
+            <h2 class="step-title">Use <code>/compact</code> for Long Sessions</h2>
+          </div>
+          <div class="step-body">
+            <p>If a session has been going for a while and Claude seems slower or less focused, try:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">claude</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">/compact</span>
+              </div>
+            </div>
+            <p>This compresses the conversation history to save space. Claude keeps the important context but drops the noise. You stay in the session — unlike <code>/clear</code>, this doesn't wipe everything.</p>
+            <p><strong>When to use it:</strong></p>
+            <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 6px;">
+              <li style="font-size: 15px; color: var(--text); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> You've been in the same session for 30+ minutes</li>
+              <li style="font-size: 15px; color: var(--text); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Claude starts repeating itself or giving off-track responses</li>
+              <li style="font-size: 15px; color: var(--text); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> You get a warning about context getting full</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">3</div>
+            <h2 class="step-title">Commit Before Experimenting</h2>
+          </div>
+          <div class="step-body">
+            <p>Before asking Claude to try something risky or unfamiliar — a big refactor, a new library, an architecture change — commit your current working state:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ git add .</span>
+<span class="cmd">$ git commit -m "working state before [experiment]"</span>
+              </div>
+            </div>
+            <p>Or just ask Claude:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">claude</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">Commit the current state before we try this</span>
+              </div>
+            </div>
+            <p>This gives you a safe save point. If the experiment goes wrong, you can always go back. See guide 05 for how to recover.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- THE PATTERN -->
+    <section class="intro-section">
+      <h2>The Pattern</h2>
+      <p>For any significant work session:</p>
+      <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Start fresh with <code>/clear</code> (or just a new terminal)</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Work on one thing at a time</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Commit when it works</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> <code>/clear</code> before switching to something new</li>
+      </ul>
+    </section>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="troubleshooting-section">
+      <h2 class="troubleshooting-label">Troubleshooting</h2>
+      <div class="trouble-list">
+
+        <div class="trouble-item">
+          <p class="trouble-error">Claude seems confused about which file we're working on</p>
+          <p class="trouble-fix"><code>/clear</code> and re-state what you're doing.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Claude keeps referencing something from earlier in the session</p>
+          <p class="trouble-fix">That's context bleed. <code>/clear</code> fixes it.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Session feels sluggish</p>
+          <p class="trouble-fix">Try <code>/compact</code> first. If that doesn't help, <code>/clear</code> and start fresh.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER NAV -->
+  <footer class="guide-nav">
+    <div class="guide-nav-inner">
+      <a href="05-recover-from-mistakes.html" class="nav-link">← Guide 05: Recover From Mistakes</a>
+      <a href="07-debug-with-claude.html" class="nav-link">Guide 07: Debug with Claude →</a>
+    </div>
+  </footer>
+
+</body>
+</html>

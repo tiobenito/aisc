@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Connect Instant DB to Your App — AISC How-To Guides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="logo-mark">[ ai study camp ]</span>
+      <a href="index.html" class="header-breadcrumb">How-To Guides →</a>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
+
+    <!-- HERO -->
+    <section class="guide-hero">
+      <div class="guide-badge">Guide 09</div>
+      <h1 class="guide-title">How to Connect Instant DB to Your App</h1>
+      <p class="guide-subtitle">Set up a real-time database for your app using Instant.</p>
+    </section>
+
+    <!-- PREREQUISITES -->
+    <aside class="prereq-box">
+      <p class="prereq-label">Prerequisites</p>
+      <ul class="prereq-list">
+        <li>A working React/Vite project</li>
+        <li>A free Instant account (sign up at <a href="https://instantdb.com">instantdb.com</a>)</li>
+      </ul>
+    </aside>
+
+    <!-- STEPS -->
+    <section class="steps-section">
+      <div class="steps-container">
+
+        <!-- Step 1 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">1</div>
+            <h2 class="step-title">Create an Instant app</h2>
+          </div>
+          <div class="step-body">
+            <p>Go to <a href="https://instantdb.com">instantdb.com</a>, sign in, and click <strong>Create App</strong>. Give it a name.</p>
+            <p>Copy your <strong>App ID</strong> from the dashboard. You'll need it in a moment.</p>
+            <div class="visual-placeholder">
+              <span class="visual-icon">⬚</span>
+              <span class="visual-label">Screenshot or screen recording</span>
+            </div>
+            <p class="visual-caption">Instant dashboard showing the App ID location</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">2</div>
+            <h2 class="step-title">Install the SDK</h2>
+          </div>
+          <div class="step-body">
+            <p>In your project folder:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">zsh</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">$ npm install @instantdb/react</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">3</div>
+            <h2 class="step-title">Initialize Instant in your app</h2>
+          </div>
+          <div class="step-body">
+            <p>Create a file called <code>src/db.ts</code>:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">src/db.ts</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">import { init } from '@instantdb/react';</span>
+<span class="gap"></span>
+<span class="cmd">const APP_ID = 'YOUR_APP_ID_HERE';</span>
+<span class="gap"></span>
+<span class="cmd">const db = init({ appID: APP_ID });</span>
+<span class="gap"></span>
+<span class="cmd">export default db;</span>
+              </div>
+            </div>
+            <p>Replace <code>YOUR_APP_ID_HERE</code> with the App ID you copied.</p>
+            <div class="tip-box">
+              <span class="tip-label">Tip</span>
+              <p>For production apps, put the App ID in an environment variable instead of hardcoding it.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">4</div>
+            <h2 class="step-title">Read data</h2>
+          </div>
+          <div class="step-body">
+            <p>In any React component:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">RecipeList.tsx</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">import db from '../db';</span>
+<span class="gap"></span>
+<span class="cmd">function RecipeList() {</span>
+<span class="cmd">  const { isLoading, error, data } = db.useQuery({ recipes: {} });</span>
+<span class="gap"></span>
+<span class="cmd">  if (isLoading) return &lt;div&gt;Loading...&lt;/div&gt;;</span>
+<span class="cmd">  if (error) return &lt;div&gt;Error: {error.message}&lt;/div&gt;;</span>
+<span class="gap"></span>
+<span class="cmd">  return (</span>
+<span class="cmd">    &lt;ul&gt;</span>
+<span class="cmd">      {data.recipes.map((recipe) =&gt; (</span>
+<span class="cmd">        &lt;li key={recipe.id}&gt;{recipe.title}&lt;/li&gt;</span>
+<span class="cmd">      ))}</span>
+<span class="cmd">    &lt;/ul&gt;</span>
+<span class="cmd">  );</span>
+<span class="cmd">}</span>
+              </div>
+            </div>
+            <div class="visual-placeholder">
+              <span class="visual-icon">⬚</span>
+              <span class="visual-label">Screenshot or screen recording</span>
+            </div>
+            <p class="visual-caption">Browser showing a list of items pulled from Instant DB</p>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">5</div>
+            <h2 class="step-title">Write data</h2>
+          </div>
+          <div class="step-body">
+            <p>To add a new item:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">addRecipe.ts</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">import { id } from '@instantdb/react';</span>
+<span class="cmd">import db from '../db';</span>
+<span class="gap"></span>
+<span class="cmd">function addRecipe(title: string) {</span>
+<span class="cmd">  db.transact(db.tx.recipes[id()].update({ title, createdAt: Date.now() }));</span>
+<span class="cmd">}</span>
+              </div>
+            </div>
+            <p>The <code>id()</code> function generates a unique ID. <code>transact</code> sends the change to the database.</p>
+          </div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">6</div>
+            <h2 class="step-title">Verify in the dashboard</h2>
+          </div>
+          <div class="step-body">
+            <p>Go back to <a href="https://instantdb.com">instantdb.com</a>, open your app, and click <strong>Explorer</strong>. You should see your data there.</p>
+            <div class="visual-placeholder">
+              <span class="visual-icon">⬚</span>
+              <span class="visual-label">Screenshot or screen recording</span>
+            </div>
+            <p class="visual-caption">Instant dashboard Explorer showing the data that was just written</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- KEY CONCEPTS -->
+    <div class="intro-section">
+      <h2>Key Concepts</h2>
+      <ul>
+        <li><strong><code>useQuery</code></strong> - reads data and updates in real-time (no refresh needed)</li>
+        <li><strong><code>transact</code></strong> - writes data (create, update, delete)</li>
+        <li><strong><code>id()</code></strong> - generates unique IDs for new records</li>
+        <li>Data syncs instantly between all connected clients</li>
+      </ul>
+    </div>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="troubleshooting-section">
+      <h2 class="troubleshooting-label">Troubleshooting</h2>
+      <div class="trouble-list">
+
+        <div class="trouble-item">
+          <p class="trouble-error">"App not found"</p>
+          <p class="trouble-fix">Double-check your App ID. Copy it fresh from the Instant dashboard.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Data doesn't show up</p>
+          <p class="trouble-fix">Check the Explorer in the Instant dashboard. If it's there but not in your app, check your <code>useQuery</code> syntax.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Type errors</p>
+          <p class="trouble-fix">Instant works fine without a schema, but for TypeScript projects, check the <a href="https://instantdb.com/docs">Instant docs</a> for typed schema setup.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER NAV -->
+  <footer class="guide-nav">
+    <div class="guide-nav-inner">
+      <a href="08-deploy-with-vercel.html" class="nav-link">← Guide 08: Deploy with Vercel</a>
+      <a href="10-break-down-big-ideas.html" class="nav-link">Guide 10: Break Down Big Ideas →</a>
+    </div>
+  </footer>
+
+</body>
+</html>

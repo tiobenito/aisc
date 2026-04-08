@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Write a Spec Before You Build — AISC How-To Guides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="logo-mark">[ ai study camp ]</span>
+      <a href="index.html" class="header-breadcrumb">How-To Guides →</a>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
+
+    <!-- HERO -->
+    <section class="guide-hero">
+      <div class="guide-badge">Guide 11</div>
+      <h1 class="guide-title">How to Write a Spec Before You Build</h1>
+      <p class="guide-subtitle">How to write a one-page brief that makes Claude Code dramatically more effective — and saves you from rebuilding the same thing three times.</p>
+    </section>
+
+    <!-- WHY THIS MATTERS -->
+    <div class="intro-section">
+      <h2>Why This Matters</h2>
+      <p>The most common mistake in vibe coding is starting with "build me X." Claude will build something, but it probably won't be what you imagined. You'll spend more time correcting than building.</p>
+      <p>Five minutes of writing before you code saves hours of redirecting.</p>
+    </div>
+
+    <!-- THE ONE-PAGE SPEC -->
+    <div class="intro-section">
+      <h2>The One-Page Spec</h2>
+      <p>Write answers to these four questions before you open Claude Code:</p>
+    </div>
+
+    <!-- STEPS (4 questions) -->
+    <section class="steps-section">
+      <div class="steps-container">
+
+        <!-- Question 1 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">1</div>
+            <h2 class="step-title">What is this? (1-2 sentences)</h2>
+          </div>
+          <div class="step-body">
+            <p>Describe the thing in plain English. Pretend you're explaining it to a friend.</p>
+            <div class="tip-box">
+              <span class="tip-label">Example</span>
+              <p>"A web app where users can log their daily mood and see a chart of patterns over time."</p>
+            </div>
+            <p>Not: "A mood tracking app" (too vague) or three paragraphs about the vision (too much).</p>
+          </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">2</div>
+            <h2 class="step-title">Who uses it and what do they do?</h2>
+          </div>
+          <div class="step-body">
+            <p>One user, one action. The main thing.</p>
+            <div class="tip-box">
+              <span class="tip-label">Example</span>
+              <p>"Someone opens the app, picks their mood from 5 options, and adds a one-line note. That's it."</p>
+            </div>
+            <p>This forces you to define your core feature before adding anything else.</p>
+          </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">3</div>
+            <h2 class="step-title">What does it look like? (rough sketch is fine)</h2>
+          </div>
+          <div class="step-body">
+            <p>List the screens or pages. Don't design them - just name them.</p>
+            <div class="tip-box">
+              <span class="tip-label">Example</span>
+              <ul>
+                <li>Home screen: mood picker + text box + submit button</li>
+                <li>History screen: list of past entries</li>
+                <li>Chart screen: mood over the last 30 days</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">4</div>
+            <h2 class="step-title">What are the rules?</h2>
+          </div>
+          <div class="step-body">
+            <p>Any constraints Claude needs to know upfront:</p>
+            <div class="tip-box">
+              <span class="tip-label">Example</span>
+              <ul>
+                <li>Mobile-first - most users are on their phone</li>
+                <li>No user accounts for now - data stays local</li>
+                <li>Use Tailwind for styling</li>
+                <li>Keep it simple - no animations, no fancy transitions</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- HOW TO USE IT -->
+    <div class="intro-section">
+      <h2>How to Use It</h2>
+      <p>Once you have your spec, paste it into Claude Code as your first message:</p>
+      <div class="terminal">
+        <div class="term-bar">
+          <span class="term-dot r"></span>
+          <span class="term-dot y"></span>
+          <span class="term-dot g"></span>
+          <span class="term-title">claude</span>
+        </div>
+        <div class="term-body">
+<span class="cmd">Here's what I want to build:</span>
+<span class="gap"></span>
+<span class="cmd">[paste your spec]</span>
+<span class="gap"></span>
+<span class="cmd">Let's start with the home screen. What's the first step?</span>
+        </div>
+      </div>
+      <p>Claude will read the whole spec and make decisions consistent with it throughout the session.</p>
+      <div class="tip-box">
+        <span class="tip-label">Tip</span>
+        <p>Save your spec as <code>SPEC.md</code> in your project folder and reference it in your <code>CLAUDE.md</code>. Claude will re-read it at the start of every session.</p>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- WHAT A GOOD SPEC LOOKS LIKE -->
+    <div class="intro-section">
+      <h2>What a Good Spec Looks Like</h2>
+      <div class="tip-box">
+        <span class="tip-label">Bad Spec</span>
+        <p>"Build a recipe app with search and user accounts and a meal planner and grocery lists."</p>
+      </div>
+      <div class="tip-box">
+        <span class="tip-label">Good Spec</span>
+        <p>"A recipe search app. Users can search recipes by ingredient. There's a results list and a detail page per recipe. No user accounts yet. Built with React + Instant DB. Mobile-first, Tailwind for styling."</p>
+      </div>
+      <p>The good spec has a clear scope, constraints, and a starting point. The bad spec is a feature list with no priority.</p>
+    </div>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="troubleshooting-section">
+      <h2 class="troubleshooting-label">Troubleshooting</h2>
+      <div class="trouble-list">
+
+        <div class="trouble-item">
+          <p class="trouble-error">Not sure what you want</p>
+          <p class="trouble-fix">Write the bad version first. Give it to Claude and say "help me refine this spec before we start building." Claude is good at asking the right questions.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Spec keeps growing</p>
+          <p class="trouble-fix">Mark anything beyond the first version as "Layer 2." Get Layer 1 done first.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Claude is ignoring the spec</p>
+          <p class="trouble-fix">Put it in your CLAUDE.md so it loads every session. Or say "re-read the spec before continuing."</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER NAV -->
+  <footer class="guide-nav">
+    <div class="guide-nav-inner">
+      <a href="10-break-down-big-ideas.html" class="nav-link">← Guide 10: Break Down Big Ideas</a>
+      <a href="12-manage-api-keys.html" class="nav-link">Guide 12: Manage API Keys →</a>
+    </div>
+  </footer>
+
+</body>
+</html>

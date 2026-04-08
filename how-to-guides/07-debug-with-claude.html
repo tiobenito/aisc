@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Debug with Claude Code — AISC How-To Guides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="logo-mark">[ ai study camp ]</span>
+      <a href="index.html" class="header-breadcrumb">How-To Guides →</a>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
+
+    <!-- HERO -->
+    <section class="guide-hero">
+      <div class="guide-badge">Guide 07</div>
+      <h1 class="guide-title">How to Debug with Claude Code</h1>
+      <p class="guide-subtitle">How to describe problems so Claude can fix them — and how to build up a project memory of common errors so Claude gets better over time.</p>
+    </section>
+
+    <!-- INTRO: The Debugging Pattern -->
+    <div class="intro-section">
+      <h2>The Debugging Pattern</h2>
+      <p>When something breaks, Claude needs three things from you:</p>
+      <ol>
+        <li><strong>What you expected</strong> to happen</li>
+        <li><strong>What actually happened</strong> (the error or wrong behavior)</li>
+        <li><strong>Where it happened</strong> (which file, which action)</li>
+      </ol>
+    </div>
+
+    <!-- STEPS -->
+    <section class="steps-section">
+      <div class="steps-container">
+
+        <!-- Step 1 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">1</div>
+            <h2 class="step-title">Copy the error message</h2>
+          </div>
+          <div class="step-body">
+            <p>If your terminal or browser shows an error, copy the whole thing. Don't paraphrase it.</p>
+            <p><strong>Good:</strong></p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">claude</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">I'm getting this error when I click the submit button:</span>
+<span class="out">TypeError: Cannot read properties of undefined (reading 'map')</span>
+<span class="out">at RecipeList (src/components/RecipeList.tsx:14)</span>
+              </div>
+            </div>
+            <p><strong>Bad:</strong></p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">claude</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">It's broken</span>
+              </div>
+            </div>
+            <div class="visual-placeholder">
+              <span class="visual-icon">⬚</span>
+              <span class="visual-label">Screenshot or screen recording</span>
+            </div>
+            <p class="visual-caption">Browser console showing an error message being copied</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">2</div>
+            <h2 class="step-title">Tell Claude what you were doing</h2>
+          </div>
+          <div class="step-body">
+            <p>Add context about when the error happens:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">claude</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">This error shows up when I click "Save Recipe" after filling out the form.</span>
+<span class="cmd">It was working before I added the ingredients field.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">3</div>
+            <h2 class="step-title">Point to the file</h2>
+          </div>
+          <div class="step-body">
+            <p>If you know which file is involved:</p>
+            <div class="terminal">
+              <div class="term-bar">
+                <span class="term-dot r"></span>
+                <span class="term-dot y"></span>
+                <span class="term-dot g"></span>
+                <span class="term-title">claude</span>
+              </div>
+              <div class="term-body">
+<span class="cmd">The error is in src/components/RecipeList.tsx. Can you take a look?</span>
+              </div>
+            </div>
+            <p>Claude Code can read your files directly, so pointing it to the right place is enough.</p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">4</div>
+            <h2 class="step-title">Let Claude investigate</h2>
+          </div>
+          <div class="step-body">
+            <p>After giving context, Claude will read the relevant files and suggest a fix. Review what it proposes before accepting.</p>
+            <div class="tip-box">
+              <span class="tip-label">Tip</span>
+              <p>If Claude's fix doesn't work, say "that didn't fix it, here's what's still happening:" and share the new error. Don't just say "still broken."</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- TEACH CLAUDE YOUR COMMON ERRORS -->
+    <div class="intro-section">
+      <h2>Teach Claude Your Common Errors</h2>
+      <p>Once you've fixed a bug, you can make sure Claude never hits the same issue blind again. Add it to your CLAUDE.md:</p>
+      <div class="terminal">
+        <div class="term-bar">
+          <span class="term-dot r"></span>
+          <span class="term-dot y"></span>
+          <span class="term-dot g"></span>
+          <span class="term-title">CLAUDE.md</span>
+        </div>
+        <div class="term-body">
+<span class="cmd">## Known Issues and Gotchas</span>
+<span class="gap"></span>
+<span class="out">- Instant DB `useQuery` returns `undefined` on first render</span>
+<span class="out">  -- always check for `isLoading` before accessing data</span>
+<span class="out">- Tailwind classes don't apply in new components unless</span>
+<span class="out">  the file is in the `content` array in `tailwind.config.js`</span>
+<span class="out">- Environment variables must be prefixed with `VITE_`</span>
+<span class="out">  to be accessible in the frontend</span>
+        </div>
+      </div>
+      <p>Over time this becomes a project-specific debugging reference. At the start of each session, Claude reads it and won't make the same mistakes twice.</p>
+      <p><strong>You can also ask Claude to log it for you:</strong></p>
+      <div class="terminal">
+        <div class="term-bar">
+          <span class="term-dot r"></span>
+          <span class="term-dot y"></span>
+          <span class="term-dot g"></span>
+          <span class="term-title">claude</span>
+        </div>
+        <div class="term-body">
+<span class="cmd">That fixed it. Add a note to CLAUDE.md so we don't hit this again.</span>
+        </div>
+      </div>
+      <p>Claude will write the gotcha directly into your CLAUDE.md.</p>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- THE TEMPLATE -->
+    <div class="intro-section">
+      <h2>The Template</h2>
+      <p>When in doubt, use this format:</p>
+      <div class="terminal">
+        <div class="term-bar">
+          <span class="term-dot r"></span>
+          <span class="term-dot y"></span>
+          <span class="term-dot g"></span>
+          <span class="term-title">claude</span>
+        </div>
+        <div class="term-body">
+<span class="cmd">I'm working on [feature/page].</span>
+<span class="cmd">When I [action], I expected [expected behavior].</span>
+<span class="cmd">Instead, I get [actual behavior/error].</span>
+<span class="cmd">The relevant file is [file path].</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMON DEBUGGING SCENARIOS -->
+    <div class="intro-section">
+      <h2>Common Debugging Scenarios</h2>
+      <table style="width:100%; font-size:14px; border-collapse:collapse; color: var(--text-secondary);">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">You see...</th>
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">Tell Claude...</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px;">White screen</td>
+            <td style="padding:8px 12px;">"My app shows a blank white page. Check the browser console for errors."</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px;">Wrong data showing</td>
+            <td style="padding:8px 12px;">"The recipe list shows the wrong recipes. Check how data is fetched in [file]."</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px;">Styling looks off</td>
+            <td style="padding:8px 12px;">"The layout is broken on mobile. Check the Tailwind classes in [component]."</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;">Build fails</td>
+            <td style="padding:8px 12px;">Copy the full build error and paste it.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="troubleshooting-section">
+      <h2 class="troubleshooting-label">Troubleshooting</h2>
+      <div class="trouble-list">
+
+        <div class="trouble-item">
+          <p class="trouble-error">Claude fixes one thing but breaks another</p>
+          <p class="trouble-fix">Commit working code before each fix so you can roll back.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">The error message is confusing</p>
+          <p class="trouble-fix">Just paste it as-is. Claude is good at reading error messages even when you can't.</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Nothing shows up in the terminal</p>
+          <p class="trouble-fix">Check your browser's developer console (right-click → Inspect → Console tab).</p>
+        </div>
+
+        <div class="trouble-item">
+          <p class="trouble-error">Same error keeps coming back</p>
+          <p class="trouble-fix">That's a sign it belongs in CLAUDE.md. Ask Claude to add it as a known issue.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER NAV -->
+  <footer class="guide-nav">
+    <div class="guide-nav-inner">
+      <a href="06-keep-claude-focused.html" class="nav-link">← Guide 06: Context Management</a>
+      <a href="08-deploy-with-vercel.html" class="nav-link">Guide 08: Deploy with Vercel →</a>
+    </div>
+  </footer>
+
+</body>
+</html>
