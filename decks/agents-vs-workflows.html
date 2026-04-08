@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Much Freedom to Give Your AI — AISC Week 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0EB;
+    --cream-light: #FAF7F4;
+    --cream-dark: #EBE5DE;
+    --white: #FFFFFF;
+    --dark: #1C1917;
+    --dark-card: #292522;
+
+    --text: #1C1917;
+    --text-secondary: #78716C;
+    --text-muted: #A8A29E;
+    --text-on-dark: #F5F3EF;
+    --text-on-dark-muted: #A8A29E;
+
+    --teal: #0D9488;
+    --teal-dark: #0F766E;
+    --teal-muted: #5EAAA6;
+    --teal-bg: rgba(13, 148, 136, 0.08);
+    --teal-border: rgba(13, 148, 136, 0.3);
+    --teal-rgb: 13, 148, 136;
+
+    --t1-color: #8BB5B2;
+    --t2-color: #4DB5AF;
+    --t3-color: #14B8A6;
+    --t4-color: #0D9488;
+    --t5-color: #0F766E;
+
+    --workflow-color: var(--teal);
+    --workflow-bg: var(--teal-bg);
+    --workflow-border: var(--teal-border);
+    --agent-color: var(--teal);
+    --agent-bg: var(--teal-bg);
+    --agent-border: var(--teal-border);
+
+    --warm: #8B7048;
+    --warm-bg: rgba(139, 112, 72, 0.1);
+    --warm-border: rgba(139, 112, 72, 0.3);
+
+    --border: rgba(28, 25, 23, 0.1);
+    --border-strong: rgba(28, 25, 23, 0.18);
+
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Geist', system-ui, sans-serif;
+    --font-mono: 'Geist Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: var(--cream);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .deck { width: 100%; height: 100%; position: relative; }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 48px 72px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.45s ease;
+    overflow-y: auto;
+    background: var(--cream);
+  }
+  .slide.active { opacity: 1; pointer-events: auto; }
+  .slide.dark-bg { background: var(--dark); color: var(--text-on-dark); }
+
+  /* Progress bar */
+  .progress-bar {
+    position: fixed; top: 0; left: 0;
+    height: 3px; background: var(--teal);
+    transition: width 0.4s ease; z-index: 100;
+  }
+
+  /* Logo */
+  .logo-mark {
+    position: fixed; bottom: 24px; left: 32px;
+    font-family: var(--font-serif); font-size: 15px; font-weight: 600;
+    color: var(--teal-muted); letter-spacing: 0.02em;
+    z-index: 100; pointer-events: none; user-select: none;
+    transition: opacity 0.3s;
+  }
+  body.on-title .logo-mark { opacity: 0; pointer-events: none; }
+
+  /* Dot nav */
+  .dot-nav {
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 10px; z-index: 100;
+  }
+  .dot-nav button {
+    width: 8px; height: 8px; border-radius: 50%;
+    border: 1.5px solid var(--text-muted);
+    background: transparent; cursor: pointer;
+    transition: all 0.3s ease; padding: 0;
+  }
+  .dot-nav button.active {
+    background: var(--teal); border-color: var(--teal);
+    transform: scale(1.25);
+  }
+  .dot-nav button:hover:not(.active) { border-color: var(--text-secondary); }
+
+  /* Arrow hint */
+  .arrow-hint {
+    position: fixed; bottom: 54px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px; color: var(--text-muted);
+    letter-spacing: 0.3px; z-index: 100; opacity: 0.7;
+  }
+
+  /* Shared */
+  .slide-inner {
+    max-width: 1100px; width: 100%;
+    display: flex; flex-direction: column; align-items: center;
+  }
+
+  h1 { font-family: var(--font-serif); font-weight: 700; letter-spacing: -0.01em; }
+  h2 { font-family: var(--font-serif); font-weight: 600; letter-spacing: -0.01em; }
+
+  .tag {
+    display: inline-block; font-family: var(--font-sans);
+    font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 20px;
+    background: var(--teal-bg); color: var(--teal-dark);
+    border: 1px solid var(--teal-border); letter-spacing: 0.2px;
+  }
+  .tag.blue { background: rgba(58,173,169,0.1); color: var(--t3-color); border-color: rgba(58,173,169,0.3); }
+  .tag.violet { background: rgba(26,122,120,0.1); color: var(--t5-color); border-color: rgba(26,122,120,0.3); }
+  .tag.amber { background: var(--warm-bg); color: var(--warm); border-color: var(--warm-border); }
+  .tag.gray { background: rgba(154,144,136,0.1); color: var(--text-muted); border-color: rgba(154,144,136,0.3); }
+
+  code, .mono { font-family: var(--font-mono); }
+
+  .card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 10px; padding: 28px 24px;
+    box-shadow: 0 1px 4px rgba(28,25,23,0.06);
+  }
+
+  /* HERO */
+  .hero-title {
+    font-family: var(--font-serif); font-size: clamp(52px, 6vw, 80px);
+    font-weight: 700; font-style: normal; line-height: 1.06;
+    text-align: center; margin-bottom: 20px; color: var(--text-on-dark);
+  }
+  .hero-subtitle {
+    font-size: clamp(18px, 2.2vw, 26px); color: var(--text-on-dark-muted);
+    font-weight: 400; text-align: center; margin-bottom: 48px;
+  }
+
+  /* COMPARE GRID */
+  .compare-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; width: 100%; max-width: 900px;
+  }
+  .compare-card { display: flex; flex-direction: column; gap: 14px; transition: transform 0.2s ease; }
+  .compare-card:hover { transform: translateY(-3px); }
+  .compare-card .card-header {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+    text-transform: uppercase; padding-bottom: 12px; border-bottom: 2px solid;
+  }
+  .compare-card.workflow .card-header { color: var(--workflow-color); border-color: var(--workflow-color); }
+  .compare-card.agent .card-header { color: var(--agent-color); border-color: var(--agent-color); }
+  .compare-card .step {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 15px; color: var(--text-secondary); line-height: 1.55;
+  }
+  .compare-card .step-num {
+    flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+  }
+  .compare-card.workflow .step-num { background: var(--workflow-bg); color: var(--workflow-color); border: 1px solid var(--workflow-border); }
+  .compare-card.agent .step-num { background: var(--teal-bg); color: var(--teal); border: 1px solid var(--teal-border); }
+
+  @media (max-width: 700px) { .compare-grid { grid-template-columns: 1fr; max-width: 440px; } }
+
+  /* PIPELINE */
+  .pipeline {
+    display: flex; flex-direction: column; gap: 0;
+    width: 100%; max-width: 780px; position: relative;
+  }
+  .pipeline::before {
+    content: ''; position: absolute;
+    left: 23px; top: 26px; bottom: 26px;
+    width: 2px; background: var(--teal-muted); opacity: 0.35;
+  }
+  .pipe-step { display: flex; align-items: flex-start; gap: 20px; padding: 10px 0; position: relative; }
+  .pipe-num {
+    flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px; color: var(--white);
+    background: var(--teal); position: relative; z-index: 2;
+  }
+  .pipe-num.amber { background: var(--warm); }
+  .pipe-body { padding-top: 10px; }
+  .pipe-body strong { font-size: 15px; color: var(--text); font-weight: 600; display: block; margin-bottom: 3px; }
+  .pipe-body span { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+
+  /* BRANCH TREE */
+  .branch-tree { width: 100%; max-width: 820px; display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .branch-root {
+    background: var(--white); border: 1.5px solid var(--teal-border);
+    border-radius: 10px; padding: 14px 24px; font-size: 14px;
+    color: var(--teal-dark); font-weight: 600; text-align: center;
+  }
+  .branch-connector { width: 2px; height: 24px; background: var(--teal-muted); opacity: 0.35; }
+  .branch-split { display: flex; align-items: flex-start; gap: 0; width: 100%; position: relative; }
+  .branch-split::before {
+    content: ''; position: absolute; top: 0; left: 25%; right: 25%;
+    height: 2px; background: var(--teal-muted); opacity: 0.35;
+  }
+  .branch-path { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; padding-top: 2px; }
+  .branch-path .branch-connector { height: 16px; }
+  .branch-step {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 16px; font-size: 13px;
+    color: var(--text-secondary); text-align: center; width: 85%; line-height: 1.4;
+  }
+  .branch-step.decision { border-color: var(--teal-border); color: var(--teal-dark); font-weight: 600; }
+  .branch-label { font-size: 11px; color: var(--text-muted); letter-spacing: 0.5px; font-weight: 600; }
+
+  /* LEVELS TRACK */
+  .slide-title {
+    font-family: var(--font-serif); font-weight: 600;
+    font-size: clamp(28px, 3.2vw, 44px); color: var(--text);
+    text-align: center; margin-bottom: 10px;
+  }
+  .slide-subtitle {
+    font-size: 16px; color: var(--text-muted); text-align: center;
+    margin-bottom: 36px; max-width: 600px; line-height: 1.55;
+  }
+
+  .levels-track {
+    display: flex; gap: 14px; width: 100%; max-width: 1080px; position: relative;
+  }
+  .levels-track::before {
+    content: ''; position: absolute; top: 34px; left: 40px; right: 40px;
+    height: 2px;
+    background: var(--teal);
+    border-radius: 2px; opacity: 0.4;
+  }
+  .level-card { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px; position: relative; z-index: 2; }
+  .level-badge {
+    width: 50px; height: 50px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-serif); font-weight: 700; font-size: 20px;
+    border: 2px solid; transition: transform 0.3s ease;
+    background: var(--cream);
+  }
+  .level-card:hover .level-badge { transform: scale(1.12); }
+  .level-badge.l0 { color: var(--teal); border-color: var(--teal); }
+  .level-badge.l1 { color: var(--teal); border-color: var(--teal); }
+  .level-badge.l2 { color: var(--teal); border-color: var(--teal); }
+  .level-badge.l3 { color: var(--teal); border-color: var(--teal); }
+  .level-badge.l4 { color: var(--teal); border-color: var(--teal); }
+  .level-name { font-size: 15px; font-weight: 700; color: var(--text); text-align: center; }
+  .level-desc { font-size: 14px; color: var(--text-secondary); text-align: center; line-height: 1.5; max-width: 170px; }
+  .level-example { font-style: italic; font-size: 13px; color: var(--text-muted); text-align: center; line-height: 1.4; max-width: 160px; }
+
+  .spectrum-labels {
+    display: flex; justify-content: space-between;
+    width: 100%; max-width: 1080px; margin-top: 24px; padding: 0 20px;
+  }
+  .spectrum-labels span { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.2px; }
+
+  @media (max-width: 900px) {
+    .levels-track { flex-direction: column; align-items: center; max-width: 400px; }
+    .levels-track::before { display: none; }
+  }
+
+  /* SPECTRUM MINI */
+  .spectrum-mini {
+    display: flex; width: 100%; max-width: 700px;
+    height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 32px;
+  }
+  .spectrum-mini .seg { flex: 1; transition: opacity 0.3s; }
+  .spectrum-mini .seg.s0 { background: var(--teal); }
+  .spectrum-mini .seg.s1 { background: var(--teal); }
+  .spectrum-mini .seg.s2 { background: var(--teal); }
+  .spectrum-mini .seg.s3 { background: var(--teal); }
+  .spectrum-mini .seg.s4 { background: var(--teal); }
+  .spectrum-mini .seg.dim { opacity: 0.18; }
+  .spectrum-mini .seg.lit { opacity: 1; }
+
+  .spectrum-mini-labels {
+    display: flex; justify-content: space-between;
+    width: 100%; max-width: 700px; margin-bottom: 8px;
+  }
+  .spectrum-mini-labels span { font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.5px; }
+
+  .mini-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%; max-width: 900px; }
+  .mini-card { display: flex; flex-direction: column; gap: 10px; }
+  .mini-card .mini-card-level { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+  .mini-card .mini-card-title { font-size: 15px; font-weight: 600; color: var(--text); }
+  .mini-card .mini-card-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+  .mini-card .node-chain { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+  .mini-card .node {
+    font-family: var(--font-mono); font-size: 10px; padding: 3px 8px;
+    border-radius: 4px; background: var(--cream); color: var(--text-secondary);
+    border: 1px solid var(--border); white-space: nowrap;
+  }
+  .mini-card .node-arrow { color: var(--text-muted); font-size: 12px; }
+
+  /* TERMINAL */
+  .terminal {
+    width: 100%; max-width: 740px;
+    background: var(--dark); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+    font-family: var(--font-mono); font-size: 13px; line-height: 1.7;
+  }
+  .term-bar {
+    display: flex; align-items: center; gap: 7px;
+    padding: 11px 16px; background: var(--dark-card);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .term-dot { width: 11px; height: 11px; border-radius: 50%; }
+  .term-dot.r { background: #e25454; }
+  .term-dot.y { background: #d4924a; }
+  .term-dot.g { background: var(--teal-muted); }
+  .term-title { flex: 1; text-align: center; font-size: 11px; color: var(--text-on-dark-muted); margin-right: 40px; }
+  .term-body { padding: 20px 24px 24px; color: #8A8478; overflow-x: auto; }
+  .term-body .prompt-line { color: var(--teal); margin-bottom: 4px; }
+  .term-body .dim { color: var(--text-on-dark-muted); }
+  .term-body .bright { color: var(--text-on-dark); }
+  .term-body .teal { color: var(--teal); }
+  .term-body .blue { color: var(--teal-muted); }
+  .term-body .yellow { color: #C4914A; }
+  .term-body .violet { color: var(--teal-muted); }
+  .term-body .gap { margin-top: 10px; }
+  .term-body .section { margin-top: 14px; }
+  .term-body .indent { padding-left: 20px; }
+
+  /* TRADE-OFF GRID */
+  .tradeoff-grid { width: 100%; max-width: 760px; display: flex; flex-direction: column; gap: 0; }
+  .tradeoff-row {
+    display: grid; grid-template-columns: 140px 1fr 1fr;
+    gap: 16px; align-items: center; padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tradeoff-row:last-child { border-bottom: none; }
+  .tradeoff-row.header { border-bottom: 2px solid var(--border-strong); padding-bottom: 10px; }
+  .tradeoff-row.header span { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); }
+  .tradeoff-row.header .wf-label { color: var(--workflow-color); }
+  .tradeoff-row.header .ag-label { color: var(--agent-color); }
+  .tradeoff-label { font-size: 14px; color: var(--text); font-weight: 500; }
+  .tradeoff-cell { display: flex; flex-direction: column; gap: 3px; }
+  .tradeoff-verdict { font-size: 13px; font-weight: 700; }
+  .tradeoff-verdict.win { color: var(--teal); }
+  .tradeoff-verdict.lose { color: var(--text-muted); }
+  .tradeoff-verdict.neutral { color: var(--text-muted); }
+  .tradeoff-verdict.win-ag { color: var(--teal-dark); }
+  .tradeoff-detail { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+
+  .tradeoff-takeaway {
+    margin-top: 28px; text-align: center;
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 20px; color: var(--teal-dark);
+  }
+
+  /* DECISION FLOW */
+  .decision-tree { display: flex; flex-direction: column; align-items: center; gap: 0; width: 100%; max-width: 800px; }
+  .decision-node {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 24px; font-size: 15px;
+    color: var(--text); text-align: center; font-weight: 500;
+    max-width: 400px; width: 100%;
+    box-shadow: 0 1px 3px rgba(28,25,23,0.06);
+  }
+  .decision-node.question { border-color: var(--teal-border); border-width: 1.5px; }
+  .decision-connector { width: 2px; height: 20px; background: var(--teal-muted); opacity: 0.35; }
+  .decision-fork { display: flex; width: 100%; gap: 0; position: relative; }
+  .decision-fork::before {
+    content: ''; position: absolute; top: 0; left: 20%; right: 20%;
+    height: 2px; background: var(--teal-muted); opacity: 0.35;
+  }
+  .decision-branch { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .decision-branch .branch-answer {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+    text-transform: uppercase; padding: 4px 12px; border-radius: 20px; margin: 8px 0;
+  }
+  .decision-branch .branch-answer.yes { color: var(--teal-dark); background: var(--teal-bg); }
+  .decision-branch .branch-answer.no { color: var(--text-secondary); background: rgba(154,144,136,0.15); }
+  .decision-branch .branch-answer.somewhat { color: var(--t3-color); background: rgba(58,173,169,0.1); }
+  .decision-outcome {
+    border-radius: 8px; padding: 10px 16px;
+    font-size: 12px; font-weight: 700; text-align: center;
+    letter-spacing: 0.3px; text-transform: uppercase;
+  }
+  .decision-outcome.l1, .decision-outcome.l2, .decision-outcome.l3, .decision-outcome.l4, .decision-outcome.l5 {
+    background: var(--teal-bg); color: var(--teal); border: 1px solid var(--teal-border);
+  }
+
+  /* SPRINT CARDS */
+  .sprint-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; max-width: 900px; }
+  .sprint-card { display: flex; flex-direction: column; gap: 14px; transition: transform 0.2s ease; position: relative; overflow: hidden; }
+  .sprint-card:hover { transform: translateY(-3px); }
+  .sprint-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; border-radius: 10px 10px 0 0; }
+  .sprint-card.wf::before { background: var(--workflow-color); }
+  .sprint-card.ag::before { background: var(--agent-color); }
+  .sprint-card .sprint-name { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+  .sprint-card.wf .sprint-name { color: var(--workflow-color); }
+  .sprint-card.ag .sprint-name { color: var(--agent-color); }
+  .sprint-card .sprint-title { font-size: 20px; font-weight: 600; color: var(--text); }
+  .sprint-card .sprint-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+  .sprint-card .sprint-levels { display: flex; gap: 8px; }
+  .sprint-card .sprint-features { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+  .sprint-card .sprint-feature { font-size: 13px; color: var(--text-secondary); display: flex; align-items: center; gap: 8px; }
+  .sprint-card .sprint-feature .check { font-size: 14px; }
+  .sprint-card.wf .sprint-feature .check { color: var(--workflow-color); }
+  .sprint-card.ag .sprint-feature .check { color: var(--agent-color); }
+
+  .sprint-takeaway {
+    margin-top: 24px; font-family: var(--font-serif); font-style: italic;
+    font-size: 17px; color: var(--text-muted); text-align: center;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--cream-light); border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 20px; font-size: 14px;
+    color: var(--text-secondary); margin-top: 20px;
+    max-width: 700px; text-align: center; line-height: 1.55;
+  }
+  .callout strong, .callout b { color: var(--text); }
+  .callout .hl { color: var(--teal-dark); font-weight: 600; }
+
+  /* Dark slide overrides */
+  .slide.dark-bg .tag { background: rgba(13,148,136,0.18); color: var(--teal-muted); border-color: rgba(13,148,136,0.28); }
+  .slide.dark-bg .tag.violet { background: rgba(255,255,255,0.06); color: var(--text-on-dark-muted); border-color: rgba(255,255,255,0.1); }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="dot-nav" id="dotNav"></div>
+<div class="arrow-hint" id="arrowHint">Use arrow keys or swipe to navigate</div>
+<div class="logo-mark">[ ai study camp ]</div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 0 — TITLE -->
+  <div class="slide dark-bg active" data-slide="0">
+    <div class="slide-inner">
+      <div style="font-family: var(--font-sans); font-size: 18px; font-weight: 600; color: var(--teal); letter-spacing: 0.04em; margin-bottom: 48px;">[ ai study camp ]</div>
+      <h1 class="hero-title">Agents vs Workflows</h1>
+      <p class="hero-subtitle">When to define every step vs. when to let the model decide</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 1 — SAME TASK, TWO WAYS -->
+  <div class="slide" data-slide="1">
+    <div class="slide-inner">
+      <h2 class="slide-title">Same Task, Two Ways</h2>
+      <div style="height: 8px;"></div>
+      <div class="compare-grid">
+        <div class="card compare-card workflow">
+          <div class="card-header">The Workflow Way</div>
+          <div class="step">
+            <span class="step-num">1</span>
+            <span>A trigger fires</span>
+          </div>
+          <div class="step">
+            <span class="step-num">2</span>
+            <span>Follows a <strong>pre-defined path</strong> &mdash; each step is fixed in advance</span>
+          </div>
+          <div class="step">
+            <span class="step-num">3</span>
+            <span>Produces the same output every time</span>
+          </div>
+          <div style="margin-top: 10px;">
+            <span class="tag" style="font-size: 11px;">Always takes the same path</span>
+          </div>
+        </div>
+
+        <div class="card compare-card agent">
+          <div class="card-header">The Agent Way</div>
+          <div class="step">
+            <span class="step-num">1</span>
+            <span>A trigger fires</span>
+          </div>
+          <div class="step">
+            <span class="step-num">2</span>
+            <span>The agent <em>reads the situation</em> and decides what to do next</span>
+          </div>
+          <div class="step">
+            <span class="step-num">3</span>
+            <span>Chooses which tools to call &mdash; and in what order</span>
+          </div>
+          <div style="margin-top: 10px;">
+            <span class="tag" style="font-size: 11px;">Path depends on what it finds</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2 — WORKFLOW VERSION -->
+  <div class="slide" data-slide="2">
+    <div class="slide-inner">
+      <h2 class="slide-title">Email Trigger &mdash; Workflow Version</h2>
+      <div style="display: flex; gap: 10px; margin-bottom: 28px;">
+        <span class="tag">n8n can build this</span>
+        <span class="tag" style="font-size: 10px;">Every email runs these exact steps</span>
+      </div>
+
+      <!-- Dark n8n-style canvas -->
+      <div style="width: 100%; max-width: 980px; background: #15162C; border-radius: 14px; padding: 28px 24px 20px; border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 4px 24px rgba(0,0,0,0.2); position: relative; overflow: hidden; margin: 4px 0 12px;">
+
+        <!-- Dot grid background -->
+        <div style="position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 24px 24px; pointer-events: none;"></div>
+
+        <!-- Node row -->
+        <div style="display: flex; align-items: flex-start; justify-content: center; gap: 0; position: relative; z-index: 1; overflow-x: auto;">
+
+          <!-- Node: Email Trigger -->
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; width: 95px; flex-shrink: 0;">
+            <div style="width: 64px; height: 64px; border-radius: 12px; background: #3D1A1A; border: 1.5px solid #EA4335; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 2px 10px rgba(234,67,53,0.2);">
+              <span style="font-size: 28px; line-height: 1;">📧</span>
+              <div style="position: absolute; top: -6px; left: -6px; width: 16px; height: 16px; background: #FF5722; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; border: 2px solid #15162C; color: white; font-weight: bold;">⚡</div>
+            </div>
+            <div style="font-size: 11px; font-weight: 600; color: #FFF; text-align: center;">Email Trigger</div>
+            <div style="font-size: 10px; color: rgba(255,255,255,0.4); text-align: center;">Gmail Trigger</div>
+          </div>
+
+          <!-- Connector -->
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; flex: 1; padding-top: 22px; gap: 2px; min-width: 28px; max-width: 52px;">
+            <div style="font-size: 9px; color: rgba(255,255,255,0.3); white-space: nowrap;">1 item</div>
+            <div style="width: 100%; display: flex; align-items: center;">
+              <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.18);"></div>
+              <div style="width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-left: 6px solid rgba(255,255,255,0.25);"></div>
+            </div>
+          </div>
+
+          <!-- Node: Extract Values (OpenAI) -->
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; width: 105px; flex-shrink: 0;">
+            <div style="width: 64px; height: 64px; border-radius: 12px; background: #0D2B27; border: 2px solid #10A37F; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 14px rgba(16,163,127,0.28);">
+              <span style="font-size: 28px; line-height: 1;">🤖</span>
+            </div>
+            <div style="font-size: 11px; font-weight: 600; color: #FFF; text-align: center;">Extract Values</div>
+            <div style="font-size: 10px; color: rgba(255,255,255,0.4); text-align: center; white-space: nowrap;">Message Model</div>
+          </div>
+
+          <!-- Connector -->
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; flex: 1; padding-top: 22px; gap: 2px; min-width: 28px; max-width: 52px;">
+            <div style="font-size: 9px; color: rgba(255,255,255,0.3); white-space: nowrap;">1 item</div>
+            <div style="width: 100%; display: flex; align-items: center;">
+              <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.18);"></div>
+              <div style="width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-left: 6px solid rgba(255,255,255,0.25);"></div>
+            </div>
+          </div>
+
+          <!-- Node: Fill Template -->
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; width: 95px; flex-shrink: 0;">
+            <div style="width: 64px; height: 64px; border-radius: 12px; background: #1A1535; border: 1.5px solid #7B68EE; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(123,104,238,0.2);">
+              <span style="font-size: 28px; line-height: 1;">✏️</span>
+            </div>
+            <div style="font-size: 11px; font-weight: 600; color: #FFF; text-align: center;">Fill Template</div>
+            <div style="font-size: 10px; color: rgba(255,255,255,0.4); text-align: center;">build reply</div>
+          </div>
+
+          <!-- Connector -->
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; flex: 1; padding-top: 22px; gap: 2px; min-width: 28px; max-width: 52px;">
+            <div style="font-size: 9px; color: rgba(255,255,255,0.3); white-space: nowrap;">1 item</div>
+            <div style="width: 100%; display: flex; align-items: center;">
+              <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.18);"></div>
+              <div style="width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-left: 6px solid rgba(255,255,255,0.25);"></div>
+            </div>
+          </div>
+
+          <!-- Node: Send Email Reply -->
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; width: 95px; flex-shrink: 0;">
+            <div style="width: 64px; height: 64px; border-radius: 12px; background: #3D1A1A; border: 1.5px solid #EA4335; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(234,67,53,0.2);">
+              <span style="font-size: 28px; line-height: 1;">📤</span>
+            </div>
+            <div style="font-size: 11px; font-weight: 600; color: #FFF; text-align: center;">Send Email Reply</div>
+            <div style="font-size: 10px; color: rgba(255,255,255,0.4); text-align: center;">reply message</div>
+          </div>
+
+          <!-- Connector -->
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; flex: 1; padding-top: 22px; gap: 2px; min-width: 28px; max-width: 52px;">
+            <div style="font-size: 9px; color: rgba(255,255,255,0.3); white-space: nowrap;">1 item</div>
+            <div style="width: 100%; display: flex; align-items: center;">
+              <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.18);"></div>
+              <div style="width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-left: 6px solid rgba(255,255,255,0.25);"></div>
+            </div>
+          </div>
+
+          <!-- Node: Log Entry (Google Sheets) -->
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; width: 95px; flex-shrink: 0;">
+            <div style="width: 64px; height: 64px; border-radius: 12px; background: #0D2B1A; border: 1.5px solid #0F9D58; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(15,157,88,0.2);">
+              <span style="font-size: 28px; line-height: 1;">📊</span>
+            </div>
+            <div style="font-size: 11px; font-weight: 600; color: #FFF; text-align: center;">Log Entry</div>
+            <div style="font-size: 10px; color: rgba(255,255,255,0.4); text-align: center;">append sheet</div>
+          </div>
+
+        </div>
+
+        <!-- System Prompt panel — below OpenAI node -->
+        <div style="margin-top: 18px; display: flex; justify-content: center; padding: 0 8px;">
+          <div style="background: rgba(16,163,127,0.07); border: 1px solid rgba(16,163,127,0.22); border-radius: 10px; padding: 14px 18px; max-width: 560px; width: 100%;">
+            <div style="font-size: 10px; font-weight: 700; color: #10A37F; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 9px;">&#9650; Extract Values — System Prompt</div>
+            <div style="font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,0.72); line-height: 2.1;">
+              <div><span style="color: #10A37F; font-weight: 600;">Role:</span> Email Parser</div>
+              <div><span style="color: #10A37F; font-weight: 600;">Goal:</span> Extract sender_name, topic, urgency</div>
+              <div><span style="color: #10A37F; font-weight: 600;">Return:</span> JSON only, no prose</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="callout" style="margin-top: 20px;">
+        The LLM does one smart thing in step 2. <span class="hl">The rest is fixed — no decisions, no branching.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 — AGENT VERSION -->
+  <div class="slide" data-slide="3">
+    <div class="slide-inner">
+      <h2 class="slide-title">Email Trigger &mdash; Agent Version</h2>
+      <div style="display: flex; gap: 10px; margin-bottom: 24px;">
+        <span class="tag violet">Claude Code / Custom Agent</span>
+        <span class="tag violet" style="font-size: 10px;">Path depends on what it finds</span>
+      </div>
+
+      <div class="terminal">
+        <div class="term-bar">
+          <div class="term-dot r"></div>
+          <div class="term-dot y"></div>
+          <div class="term-dot g"></div>
+          <div class="term-title">agent</div>
+        </div>
+        <div class="term-body">
+          <div class="prompt-line">Email: "I'm having trouble with my account and I'm thinking about cancelling."</div>
+          <div class="gap"></div>
+          <div class="dim">Agent thinking...</div>
+          <div class="gap"></div>
+          <div><span class="blue">Tool call:</span> <span class="bright">get_account_history("sender@email.com")</span></div>
+          <div class="indent dim">&rarr; Customer since 2021, 3 unresolved support tickets, renewal in 12 days</div>
+          <div class="gap"></div>
+          <div class="dim">Agent: this is a churn risk, not just a support issue. Escalating.</div>
+          <div class="gap"></div>
+          <div><span class="blue">Tool call:</span> <span class="bright">flag_for_account_manager(priority: "high", reason: "churn_risk")</span></div>
+          <div class="indent dim">&rarr; Notified account manager</div>
+          <div class="gap"></div>
+          <div><span class="blue">Tool call:</span> <span class="bright">draft_reply(tone: "personal", offer: "retention_credit")</span></div>
+          <div class="indent dim">&rarr; Custom reply — not a template</div>
+          <div class="section"></div>
+          <div class="bright">A workflow couldn't do this. It had no branch for "loyal customer about to churn, renewal soon."</div>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top: 16px;">
+        The LLM does everything — reads the situation, decides what matters, chooses which tools to call.<br><span class="hl">No template. No fixed path. Every email gets a different response.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 — THE SPECTRUM -->
+  <div class="slide" data-slide="4">
+    <div class="slide-inner">
+      <h2 class="slide-title">The Spectrum</h2>
+      <p class="slide-subtitle">From fixed automation to multi-agent AI systems</p>
+
+      <div class="levels-track">
+        <div class="level-card">
+          <div class="level-badge l0">1</div>
+          <div class="level-name">Workflow</div>
+          <div class="level-desc">Fixed steps, no AI. Same path every time.</div>
+        </div>
+        <div class="level-card">
+          <div class="level-badge l1">2</div>
+          <div class="level-name">LLM Workflow</div>
+          <div class="level-desc">AI does one step. The rest is fixed.</div>
+        </div>
+        <div class="level-card">
+          <div class="level-badge l2">3</div>
+          <div class="level-name">AI Assistant</div>
+          <div class="level-desc">Has tools. Responds to what you ask.</div>
+        </div>
+        <div class="level-card">
+          <div class="level-badge l3">4</div>
+          <div class="level-name">Agent</div>
+          <div class="level-desc">Has tools. Decides what to do next.</div>
+        </div>
+        <div class="level-card">
+          <div class="level-badge l4">5</div>
+          <div class="level-name">Agentic System</div>
+          <div class="level-desc">Multiple agents. One orchestrates the rest.</div>
+        </div>
+      </div>
+
+      <div class="spectrum-labels">
+        <span style="color: var(--teal);">&larr; More Predictable</span>
+        <span style="color: var(--teal);">More Autonomous &rarr;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5 — N8N ON SPECTRUM -->
+  <div class="slide" data-slide="5">
+    <div class="slide-inner">
+      <h2 class="slide-title">n8n on the Spectrum</h2>
+      <p class="slide-subtitle">n8n covers Tiers 1&ndash;2 (Workflow + LLM Workflow): predictable, reliable, visual</p>
+
+      <div class="spectrum-mini-labels">
+        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+      </div>
+      <div class="spectrum-mini">
+        <div class="seg s0 lit"></div>
+        <div class="seg s1 lit"></div>
+        <div class="seg s2 dim"></div>
+        <div class="seg s3 dim"></div>
+        <div class="seg s4 dim"></div>
+      </div>
+
+      <div class="mini-cards">
+        <div class="card mini-card">
+          <div class="mini-card-level" style="color: var(--t1-color);">Tier 1 &mdash; Workflow</div>
+          <div class="mini-card-title">Form &rarr; Slack</div>
+          <div class="node-chain">
+            <span class="node">Webhook</span>
+            <span class="node-arrow">&rarr;</span>
+            <span class="node">Slack</span>
+          </div>
+          <div class="mini-card-desc">New form submission triggers a Slack message. No AI needed.</div>
+        </div>
+        <div class="card mini-card">
+          <div class="mini-card-level" style="color: var(--t2-color);">Tier 2 &mdash; LLM Workflow (Basic)</div>
+          <div class="mini-card-title">Classify &amp; Reply</div>
+          <div class="node-chain">
+            <span class="node">Email</span>
+            <span class="node-arrow">&rarr;</span>
+            <span class="node">OpenAI</span>
+            <span class="node-arrow">&rarr;</span>
+            <span class="node">Template</span>
+            <span class="node-arrow">&rarr;</span>
+            <span class="node">Send</span>
+          </div>
+          <div class="mini-card-desc">AI extracts info in one node; workflow fills a template and sends.</div>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top: 16px;">
+        Adding an AI step doesn&apos;t make it an agent. <span class="hl">The path is still fixed &mdash; the LLM is a tool, not the decision-maker.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE — AI ASSISTANT (TIER 3) -->
+  <div class="slide" data-slide="5b">
+    <div class="slide-inner">
+      <h2 class="slide-title">What is an AI Assistant?</h2>
+      <p class="slide-subtitle" style="margin-bottom: 28px;">Tier 3 — has tools, responds to what you ask</p>
+
+      <div class="spectrum-mini-labels">
+        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+      </div>
+      <div class="spectrum-mini">
+        <div class="seg s0 dim"></div>
+        <div class="seg s1 dim"></div>
+        <div class="seg s2 lit"></div>
+        <div class="seg s3 dim"></div>
+        <div class="seg s4 dim"></div>
+      </div>
+
+      <div style="display: flex; align-items: stretch; gap: 0; width: 100%; max-width: 960px; margin: 20px 0 24px;">
+        <!-- Left column: System Prompt + User Prompt stacked -->
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+          <div class="card" style="flex: 1; padding: 20px 18px; border-color: var(--border);">
+            <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;">System Prompt</div>
+            <div style="font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 10px;">Narrow Scope</div>
+            <div style="font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); line-height: 1.7; background: var(--cream); padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
+              <span style="color: var(--teal);">You are a customer support assistant.</span><br>
+              <span style="color: var(--text-muted);">- Answer questions about orders, shipping, and returns</span><br>
+              <span style="color: var(--text-muted);">- Be helpful and concise</span><br>
+              <span style="color: var(--text-muted);">- Escalate if you can't resolve it</span>
+            </div>
+          </div>
+          <div class="card" style="padding: 14px 18px; border-color: var(--warm-border); background: rgba(139,112,72,0.04);">
+            <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--warm); margin-bottom: 8px;">User Prompt</div>
+            <div style="font-family: var(--font-mono); font-size: 13px; color: var(--text); line-height: 1.5; background: var(--cream); padding: 10px; border-radius: 6px; border: 1px solid var(--border);">
+              &ldquo;Where is my order #5821?&rdquo;
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; padding: 0 12px; color: var(--text-muted); font-size: 22px;">&#8594;</div>
+
+        <div class="card" style="flex: 1; padding: 20px 18px; background: var(--teal-bg); border-color: var(--teal-border);">
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--teal-dark); margin-bottom: 8px;">LLM Brain</div>
+          <div style="font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px;">Reads + Responds</div>
+          <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">Reads the system prompt + user message. Picks a tool or writes a reply. Waits for the next message.</div>
+        </div>
+
+        <div style="display: flex; align-items: center; padding: 0 12px; color: var(--text-muted); font-size: 22px;">&#8594;</div>
+
+        <div class="card" style="flex: 1; padding: 20px 18px; border-color: var(--border);">
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--t2-color); margin-bottom: 8px;">Tools</div>
+          <div style="font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px;">Defined Set</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px;">
+            <span class="tag" style="font-size: 10px; font-family: var(--font-mono); padding: 3px 8px;">get_order_status</span>
+            <span class="tag" style="font-size: 10px; font-family: var(--font-mono); padding: 3px 8px;">process_refund</span>
+            <span class="tag" style="font-size: 10px; font-family: var(--font-mono); padding: 3px 8px;">search_faq</span>
+            <span class="tag" style="font-size: 10px; font-family: var(--font-mono); padding: 3px 8px;">escalate_ticket</span>
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted);">Pre-defined — it can only do what it's given.</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <span class="hl">The key difference from an agent:</span> you drive the conversation. The assistant responds to each message. It doesn't decide to go look for something on its own.
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6 — AGENT ANATOMY -->
+  <div class="slide" data-slide="6">
+    <div class="slide-inner">
+      <h2 class="slide-title">What is an Agent?</h2>
+      <p class="slide-subtitle" style="margin-bottom: 16px;">Tier 4 — has tools, decides what to do next, loops until done</p>
+
+      <div class="spectrum-mini-labels">
+        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+      </div>
+      <div class="spectrum-mini" style="margin-bottom: 20px;">
+        <div class="seg s0 dim"></div>
+        <div class="seg s1 dim"></div>
+        <div class="seg s2 dim"></div>
+        <div class="seg s3 lit"></div>
+        <div class="seg s4 dim"></div>
+      </div>
+
+      <div style="display: flex; align-items: stretch; gap: 0; width: 100%; max-width: 960px; margin-bottom: 16px;">
+        <!-- Left column: System Prompt + User Prompt stacked -->
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+          <div class="card" style="flex: 1; border-color: var(--teal-border); padding: 20px 18px;">
+            <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--teal); margin-bottom: 8px;">System Prompt</div>
+            <div style="font-size: 15px; font-weight: 600; margin-bottom: 10px; color: var(--text);">Identity + Rules</div>
+            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); line-height: 1.7; background: var(--cream); padding: 10px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 10px;">
+              <span style="color: var(--teal);">You are an incident response agent.</span><br>
+              <span style="color: var(--text-muted);">Goal: resolve production issues.</span><br>
+              <span style="color: var(--text-muted);">- Read alerts, check logs, find root cause</span><br>
+              <span style="color: var(--text-muted);">- Draft updates for the team</span><br>
+              <span style="color: var(--text-muted);">- Escalate if unsure — don't guess</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); font-style: italic;">This is your CLAUDE.md for a deployed agent</div>
+          </div>
+          <div class="card" style="padding: 14px 18px; border-color: var(--warm-border); background: rgba(139,112,72,0.04);">
+            <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--warm); margin-bottom: 8px;">User Prompt</div>
+            <div style="font-family: var(--font-mono); font-size: 13px; color: var(--text); line-height: 1.5; background: var(--cream); padding: 10px; border-radius: 6px; border: 1px solid var(--border);">
+              &ldquo;API error rate spiked to 42% at 3:42am. Handle it.&rdquo;
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; padding: 0 12px; color: var(--text-muted); font-size: 22px;">&#8594;</div>
+
+        <div class="card" style="flex: 1; border-color: var(--teal-border); padding: 20px 18px; background: var(--teal-bg); position: relative;">
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--teal-dark); margin-bottom: 8px;">LLM Brain</div>
+          <div style="font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--text);">Reads + Decides</div>
+          <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">Decides which tool to call. Reads the result. Decides what to do next. <strong style="color: var(--teal-dark);">Loops until the goal is done.</strong></div>
+          <div style="margin-top: 10px; font-size: 12px; color: var(--teal); font-weight: 600; letter-spacing: 0.3px;">&#8635; not just one response — it iterates</div>
+        </div>
+
+        <div style="display: flex; align-items: center; padding: 0 12px; color: var(--teal-muted); font-size: 18px; flex-direction: column; gap: 4px;">
+          <span>&#8594;</span>
+          <span style="font-size: 10px; color: var(--text-muted);">result</span>
+          <span>&#8592;</span>
+        </div>
+
+        <div class="card" style="flex: 1; border-color: rgba(90,158,154,0.35); padding: 20px 18px;">
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--teal); margin-bottom: 8px;">Tools</div>
+          <div style="font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--text);">Open-Ended Set</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px;">
+            <span class="tag" style="font-size: 10px; font-family: var(--font-mono); padding: 3px 8px;">web_search</span>
+            <span class="tag" style="font-size: 10px; font-family: var(--font-mono); padding: 3px 8px;">read_file</span>
+            <span class="tag" style="font-size: 10px; font-family: var(--font-mono); padding: 3px 8px;">calendar</span>
+            <span class="tag" style="font-size: 10px; font-family: var(--font-mono); padding: 3px 8px;">browser</span>
+            <span class="tag" style="font-size: 10px; font-family: var(--font-mono); padding: 3px 8px;">query_db</span>
+            <span class="tag" style="font-size: 10px; font-family: var(--font-mono); padding: 3px 8px;">send_email</span>
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted);">Unlike an assistant, the set isn't fixed — you give it whatever it needs.</div>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top: 0;">
+        <span class="hl">Claude Code is an agent.</span> System prompt = CLAUDE.md. Tools = bash, file read/write, search. It loops until the task is done — you haven&apos;t been chatting, you&apos;ve been using an agent all course.
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7 — ASSISTANT VS AGENT -->
+  <div class="slide" data-slide="7">
+    <div class="slide-inner">
+      <h2 class="slide-title">Assistant vs Agent</h2>
+      <p class="slide-subtitle">Both have tools. The difference is who&apos;s driving.</p>
+
+      <div class="compare-grid">
+        <div class="card compare-card workflow">
+          <div class="card-header">Tier 3 — AI Assistant</div>
+          <div class="step"><span class="step-num">+</span><span>Responds to what <strong>you</strong> ask</span></div>
+          <div class="step"><span class="step-num">+</span><span>Narrow scope &mdash; does specific, defined tasks</span></div>
+          <div class="step"><span class="step-num">+</span><span>You decide when to use it and what to ask</span></div>
+          <div class="step"><span class="step-num">+</span><span>Predictable &mdash; stays in its lane</span></div>
+          <div style="margin-top: 14px; font-style: italic; font-size: 13px; color: var(--text-muted);">"What&apos;s the status of order #1234?"</div>
+          <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
+            <span class="tag" style="font-size: 10px;">Customer support bot</span>
+            <span class="tag" style="font-size: 10px;">FAQ bot</span>
+            <span class="tag" style="font-size: 10px;">Search assistant</span>
+          </div>
+        </div>
+
+        <div class="card compare-card agent">
+          <div class="card-header">Tier 4 — Agent</div>
+          <div class="step"><span class="step-num">+</span><span>Pursues a <strong>goal</strong> autonomously</span></div>
+          <div class="step"><span class="step-num">+</span><span>Broad scope &mdash; figures out what needs doing</span></div>
+          <div class="step"><span class="step-num">+</span><span>Decides what to do next based on what it finds</span></div>
+          <div class="step"><span class="step-num">+</span><span>Multi-step &mdash; can run for hours</span></div>
+          <div style="margin-top: 14px; font-style: italic; font-size: 13px; color: var(--text-muted);">"Handle this customer issue end-to-end"</div>
+          <div style="margin-top: 10px;">
+            <span class="tag" style="font-size: 10px;">Claude Code &middot; Incident response &middot; Research agent</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tradeoff-takeaway" style="margin-top: 24px; font-style: normal;">You drive an assistant. An agent drives itself.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8 — AGENTIC SYSTEM -->
+  <div class="slide" data-slide="8">
+    <div class="slide-inner">
+      <h2 class="slide-title">Agentic System</h2>
+      <p class="slide-subtitle" style="margin-bottom: 16px;">Tier 5 — multiple agents, one orchestrates, others specialize</p>
+
+      <div class="spectrum-mini-labels">
+        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+      </div>
+      <div class="spectrum-mini" style="margin-bottom: 20px;">
+        <div class="seg s0 dim"></div>
+        <div class="seg s1 dim"></div>
+        <div class="seg s2 dim"></div>
+        <div class="seg s3 dim"></div>
+        <div class="seg s4 lit"></div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 14px; width: 100%; max-width: 860px; margin-bottom: 20px;">
+        <div class="card" style="border-color: var(--teal-border); background: var(--teal-bg); padding: 16px 56px; text-align: center; width: 100%;">
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--teal-dark); margin-bottom: 6px;">Orchestrator</div>
+          <div style="font-size: 15px; font-weight: 600; color: var(--text);">Receives the goal &middot; Breaks it down &middot; Delegates &middot; Assembles output</div>
+        </div>
+
+        <div style="display: flex; width: 100%; gap: 16px; align-items: flex-start;">
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <div style="color: var(--text-muted); font-size: 20px;">&#8595;</div>
+            <div class="card" style="width: 100%; padding: 14px; text-align: center; border-color: var(--teal-border);">
+              <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--teal); margin-bottom: 4px;">Research Agent</div>
+              <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">Web search &middot; Documents &middot; APIs</div>
+              <div style="font-size: 11px; color: var(--teal-muted);">&#8635; loops independently</div>
+            </div>
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <div style="color: var(--text-muted); font-size: 20px;">&#8595;</div>
+            <div class="card" style="width: 100%; padding: 14px; text-align: center; border-color: rgba(58,173,169,0.35);">
+              <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--t3-color); margin-bottom: 4px;">Analysis Agent</div>
+              <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">Data &middot; Patterns &middot; Insights</div>
+              <div style="font-size: 11px; color: var(--teal-muted);">&#8635; loops independently</div>
+            </div>
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <div style="color: var(--text-muted); font-size: 20px;">&#8595;</div>
+            <div class="card" style="width: 100%; padding: 14px; text-align: center; border-color: var(--teal-border);">
+              <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--teal); margin-bottom: 4px;">Writing Agent</div>
+              <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">Draft &middot; Format &middot; Deliver</div>
+              <div style="font-size: 11px; color: var(--teal-muted);">&#8635; loops independently</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout" style="text-align: left;">
+        <span class="hl">"Write me a research report on EVs"</span><br>
+        <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--text-secondary);">
+          <div>• <strong style="color: var(--text);">Orchestrator</strong> breaks it into tasks: research, analyze, write</div>
+          <div>• <strong style="color: var(--text);">Delegates</strong> each task to a specialist agent</div>
+          <div>• Specialists work independently, loop until their task is done</div>
+          <div>• <strong style="color: var(--text);">Orchestrator assembles</strong> the final output</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9 — TRADE-OFFS -->
+  <div class="slide" data-slide="9">
+    <div class="slide-inner">
+      <h2 class="slide-title">Trade-offs</h2>
+      <p class="slide-subtitle">Neither is better. They're good at different things.</p>
+
+      <div class="card tradeoff-grid">
+        <div class="tradeoff-row header">
+          <span></span>
+          <span class="wf-label">Workflows</span>
+          <span class="ag-label">Agents</span>
+        </div>
+        <div class="tradeoff-row">
+          <span class="tradeoff-label">Reliability</span>
+          <div class="tradeoff-cell">
+            <span class="tradeoff-verdict win">High</span>
+            <span class="tradeoff-detail">Same path every time</span>
+          </div>
+          <div class="tradeoff-cell">
+            <span class="tradeoff-verdict lose">Variable</span>
+            <span class="tradeoff-detail">Depends on LLM reasoning</span>
+          </div>
+        </div>
+        <div class="tradeoff-row">
+          <span class="tradeoff-label">Flexibility</span>
+          <div class="tradeoff-cell">
+            <span class="tradeoff-verdict lose">Low</span>
+            <span class="tradeoff-detail">Fixed steps, can't adapt</span>
+          </div>
+          <div class="tradeoff-cell">
+            <span class="tradeoff-verdict win-ag">High</span>
+            <span class="tradeoff-detail">Adapts to each situation</span>
+          </div>
+        </div>
+        <div class="tradeoff-row">
+          <span class="tradeoff-label">Cost per run</span>
+          <div class="tradeoff-cell">
+            <span class="tradeoff-verdict win">Cheap</span>
+            <span class="tradeoff-detail">Few fixed API calls</span>
+          </div>
+          <div class="tradeoff-cell">
+            <span class="tradeoff-verdict lose">Expensive</span>
+            <span class="tradeoff-detail">Many LLM calls per run</span>
+          </div>
+        </div>
+        <div class="tradeoff-row">
+          <span class="tradeoff-label">Debugging</span>
+          <div class="tradeoff-cell">
+            <span class="tradeoff-verdict win">Easy</span>
+            <span class="tradeoff-detail">See each node's input/output</span>
+          </div>
+          <div class="tradeoff-cell">
+            <span class="tradeoff-verdict lose">Harder</span>
+            <span class="tradeoff-detail">Reasoning can be opaque</span>
+          </div>
+        </div>
+        <div class="tradeoff-row">
+          <span class="tradeoff-label">Time to build</span>
+          <div class="tradeoff-cell">
+            <span class="tradeoff-verdict neutral">Maybe</span>
+            <span class="tradeoff-detail">Fast for simple flows</span>
+          </div>
+          <div class="tradeoff-cell">
+            <span class="tradeoff-verdict neutral">Maybe</span>
+            <span class="tradeoff-detail">Fast for complex tasks</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tradeoff-takeaway" style="font-style: normal;">Use the simplest thing that works.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10 — DECISION FLOW -->
+  <div class="slide" data-slide="10">
+    <div class="slide-inner">
+      <h2 class="slide-title">Which Tier Do You Need?</h2>
+      <p class="slide-subtitle">A simple decision tree to find your starting point</p>
+
+      <div class="decision-tree">
+        <div class="decision-node question">Do you know ALL the steps in advance?</div>
+        <div class="decision-connector"></div>
+
+        <div class="decision-fork">
+          <div class="decision-branch">
+            <div class="branch-answer yes">YES</div>
+            <div class="decision-connector"></div>
+            <div class="decision-node question" style="font-size: 14px;">Does any step need AI?</div>
+            <div class="decision-connector"></div>
+            <div class="decision-fork" style="gap: 0;">
+              <div class="decision-branch">
+                <div class="branch-answer no">NO</div>
+                <div class="decision-connector"></div>
+                <div class="decision-outcome l1">Tier 1<br>Workflow</div>
+              </div>
+              <div class="decision-branch">
+                <div class="branch-answer yes">YES</div>
+                <div class="decision-connector"></div>
+                <div class="decision-outcome l2">Tier 2<br>LLM Workflow</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="decision-branch">
+            <div class="branch-answer no">NO</div>
+            <div class="decision-connector"></div>
+            <div class="decision-node question" style="font-size: 14px;">Does it respond to requests or pursue goals?</div>
+            <div class="decision-connector"></div>
+            <div class="decision-fork" style="gap: 0;">
+              <div class="decision-branch">
+                <div class="branch-answer somewhat">RESPONDS</div>
+                <div class="decision-connector"></div>
+                <div class="decision-outcome l3">Tier 3<br>AI Assistant</div>
+              </div>
+              <div class="decision-branch">
+                <div class="branch-answer yes" style="color: var(--t5-color); background: rgba(26,122,120,0.1);">PURSUES GOALS</div>
+                <div class="decision-connector"></div>
+                <div class="decision-outcome l5">Tier 4&ndash;5<br>Agent / System</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11 — THREE REAL EXAMPLES -->
+  <div class="slide" data-slide="11">
+    <div class="slide-inner">
+      <h2 class="slide-title">Three Real Examples</h2>
+      <p class="slide-subtitle">See where each one lands on the spectrum — then think about your own project.</p>
+
+      <div class="mini-cards" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 28px; align-items: stretch;">
+        <div class="card mini-card" style="gap: 10px; justify-content: flex-start;">
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <span class="tag" style="font-size: 10px; padding: 3px 10px;">Tier 1</span>
+            <span style="font-size: 11px; color: var(--text-muted); font-weight: 500;">Workflow</span>
+          </div>
+          <div style="font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--text); line-height: 1.2;">Waitlist Signup</div>
+          <div style="font-size: 15px; color: var(--text); line-height: 1.55; font-style: italic;">"Someone joins &rarr; add to Airtable, send welcome email, ping the founder on Slack."</div>
+          <div style="font-size: 13px; color: var(--text-muted);">Multi-step, fully fixed. Zero AI.</div>
+        </div>
+        <div class="card mini-card" style="gap: 10px; justify-content: flex-start;">
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <span class="tag" style="font-size: 10px; padding: 3px 10px;">Tier 2</span>
+            <span style="font-size: 11px; color: var(--text-muted); font-weight: 500;">LLM Workflow</span>
+          </div>
+          <div style="font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--text); line-height: 1.2;">Support Ticket Router</div>
+          <div style="font-size: 15px; color: var(--text); line-height: 1.55; font-style: italic;">"Read this ticket and decide if it&apos;s billing, technical, or sales &mdash; then route it."</div>
+          <div style="font-size: 13px; color: var(--text-muted);">AI does one step. The routing is fixed.</div>
+        </div>
+        <div class="card mini-card" style="gap: 10px; justify-content: flex-start; border-color: var(--teal-border);">
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <span class="tag" style="font-size: 10px; padding: 3px 10px;">Tier 4</span>
+            <span style="font-size: 11px; color: var(--text-muted); font-weight: 500;">Agent</span>
+          </div>
+          <div style="font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--text); line-height: 1.2;">Incident Response</div>
+          <div style="font-size: 15px; color: var(--text); line-height: 1.55; font-style: italic;">"A production error fired. Handle it."</div>
+          <div style="font-size: 13px; color: var(--text-muted);">Reads trace, searches commits, checks runbook, drafts Slack update, opens ticket. No fixed path.</div>
+        </div>
+      </div>
+
+      <div class="callout" style="text-align: center;">
+        <span class="hl">Now think about your project.</span> Do you know all the steps in advance? Does it need judgment? Where does it land?
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 12 — SPRINT CHOICE -->
+  <div class="slide" data-slide="12">
+    <div class="slide-inner">
+      <h2 class="slide-title">Your Sprint Choice</h2>
+      <p class="slide-subtitle">Both are valuable. Pick the one that matches your project.</p>
+
+      <div class="sprint-grid">
+        <div class="card sprint-card wf">
+          <div class="sprint-name">Sprint 2</div>
+          <div class="sprint-title">n8n Automation</div>
+          <div class="sprint-desc">Build a deterministic workflow that runs reliably every time. Great for repeatable processes.</div>
+          <div class="sprint-levels">
+            <span class="tag" style="font-size: 10px;">Workflow</span>
+            <span class="tag" style="font-size: 10px;">LLM Workflow</span>
+          </div>
+          <div class="sprint-features">
+            <div class="sprint-feature"><span class="check">+</span> Visual, drag-and-drop builder</div>
+            <div class="sprint-feature"><span class="check">+</span> Predictable &amp; debuggable</div>
+            <div class="sprint-feature"><span class="check">+</span> Low cost per run</div>
+            <div class="sprint-feature"><span class="check">+</span> Great for ops &amp; internal tools</div>
+          </div>
+        </div>
+        <div class="card sprint-card ag">
+          <div class="sprint-name">Sprint 3</div>
+          <div class="sprint-title">AI Chat Assistant</div>
+          <div class="sprint-desc">Build an agent that uses tools and adapts to each situation. Great for complex, judgment-heavy tasks.</div>
+          <div class="sprint-levels">
+            <span class="tag" style="font-size: 10px;">AI Assistant</span>
+          </div>
+          <div class="sprint-features">
+            <div class="sprint-feature"><span class="check">+</span> Claude Code + OpenAI API</div>
+            <div class="sprint-feature"><span class="check">+</span> Handles ambiguity well</div>
+            <div class="sprint-feature"><span class="check">+</span> Tool use &amp; reasoning</div>
+            <div class="sprint-feature"><span class="check">+</span> Great for customer-facing AI</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SLIDE 13 — BUILDING WITH N8N -->
+  <div class="slide" data-slide="13">
+    <div class="slide-inner">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+        <span class="tag">Sprint 2</span>
+      </div>
+      <h2 class="slide-title">Building with n8n</h2>
+
+      <!-- What you'll build strip -->
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 22px; background: var(--teal-bg); border: 1px solid var(--teal-border); border-radius: 10px; padding: 11px 18px; flex-wrap: wrap;">
+        <span style="font-family: var(--font-sans); font-size: 12px; font-weight: 600; color: var(--teal); margin-right: 4px;">You'll build:</span>
+        <span style="background: white; border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; font-family: var(--font-mono); font-size: 11px; color: var(--text);">🔗 Webhook Trigger</span>
+        <span style="color: var(--teal); font-weight: 600;">→</span>
+        <span style="background: white; border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; font-family: var(--font-mono); font-size: 11px; color: var(--text);">🤖 AI Classify</span>
+        <span style="color: var(--teal); font-weight: 600;">→</span>
+        <span style="background: white; border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; font-family: var(--font-mono); font-size: 11px; color: var(--text);">🔀 Route</span>
+        <span style="color: var(--teal); font-weight: 600;">→</span>
+        <span style="background: white; border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; font-family: var(--font-mono); font-size: 11px; color: var(--text);">📊 Airtable Output</span>
+      </div>
+
+      <!-- Building options — 2 column grid -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+
+        <!-- Left: Native n8n paths -->
+        <div class="card" style="padding: 18px 20px;">
+          <div style="font-family: var(--font-sans); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 14px;">Native n8n</div>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <span style="min-width: 22px; height: 22px; background: var(--teal); color: white; border-radius: 50%; font-family: var(--font-sans); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</span>
+              <div><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--text);">Template library</div><div style="font-family: var(--font-sans); font-size: 12px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">1,000+ pre-built workflows — find the closest, adapt it</div></div>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <span style="min-width: 22px; height: 22px; background: var(--teal); color: white; border-radius: 50%; font-family: var(--font-sans); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</span>
+              <div><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--text);">Visual builder</div><div style="font-family: var(--font-sans); font-size: 12px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">Drag &amp; drop nodes, configure credentials, test runs</div></div>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <span style="min-width: 22px; height: 22px; background: var(--teal); color: white; border-radius: 50%; font-family: var(--font-sans); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</span>
+              <div><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--text);">n8n AI editor</div><div style="font-family: var(--font-sans); font-size: 12px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">Built-in AI — describe what you want, it generates the nodes</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: With Claude Code -->
+        <div class="card" style="padding: 18px 20px;">
+          <div style="font-family: var(--font-sans); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 14px;">With Claude Code</div>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <span style="min-width: 22px; height: 22px; background: var(--teal); color: white; border-radius: 50%; font-family: var(--font-sans); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</span>
+              <div><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--text);">Generate workflow JSON</div><div style="font-family: var(--font-sans); font-size: 12px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">Describe to Claude → it writes JSON → paste into n8n</div></div>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <span style="min-width: 22px; height: 22px; background: var(--teal); color: white; border-radius: 50%; font-family: var(--font-sans); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">5</span>
+              <div><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--text);">Connect via MCP</div><div style="font-family: var(--font-sans); font-size: 12px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">Claude Code talks directly to your n8n instance to build &amp; edit</div></div>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <span style="min-width: 22px; height: 22px; background: var(--teal); color: white; border-radius: 50%; font-family: var(--font-sans); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">6</span>
+              <div><div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--text);">Deploy &amp; debug</div><div style="font-family: var(--font-sans); font-size: 12px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">Run, inspect execution logs, fix errors with Claude's help</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 14 — BUILDING AN AI CHAT ASSISTANT -->
+  <div class="slide" data-slide="14">
+    <div class="slide-inner">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+        <span class="tag">Sprint 3</span>
+      </div>
+      <h2 class="slide-title">Building an AI Chat Assistant</h2>
+
+      <!-- Tech stack strip -->
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 28px; flex-wrap: wrap;">
+        <span style="font-family: var(--font-sans); font-size: 12px; font-weight: 600; color: var(--text-secondary);">Stack:</span>
+        <span class="tag" style="font-size: 11px;">Next.js</span>
+        <span style="color: var(--text-secondary); font-size: 14px;">+</span>
+        <span class="tag" style="font-size: 11px;">InstantDB</span>
+        <span style="color: var(--text-secondary); font-size: 14px;">+</span>
+        <span class="tag" style="font-size: 11px;">OpenAI API</span>
+      </div>
+
+      <!-- Three cards -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <div style="background: var(--teal); padding: 10px 18px;">
+            <div style="font-family: var(--font-sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: white;">You've been doing this</div>
+          </div>
+          <div style="padding: 16px 18px;">
+            <ul style="margin: 0; padding-left: 16px; font-family: var(--font-sans); font-size: 13px; color: var(--text); line-height: 1.9; list-style: none; padding: 0;">
+              <li style="display: flex; gap: 8px; margin-bottom: 6px;"><span style="color: var(--teal); font-weight: 700;">·</span> Build frontend with Claude Code</li>
+              <li style="display: flex; gap: 8px; margin-bottom: 6px;"><span style="color: var(--teal); font-weight: 700;">·</span> Connect InstantDB for storage</li>
+              <li style="display: flex; gap: 8px;"><span style="color: var(--teal); font-weight: 700;">·</span> Deploy on Vercel</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <div style="background: var(--teal); padding: 10px 18px;">
+            <div style="font-family: var(--font-sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: white;">What's new</div>
+          </div>
+          <div style="padding: 16px 18px;">
+            <ul style="margin: 0; padding: 0; font-family: var(--font-sans); font-size: 13px; color: var(--text); line-height: 1.9; list-style: none;">
+              <li style="display: flex; gap: 8px; margin-bottom: 6px;"><span style="color: var(--teal); font-weight: 700;">·</span> Call the OpenAI API from your app</li>
+              <li style="display: flex; gap: 8px; margin-bottom: 6px;"><span style="color: var(--teal); font-weight: 700;">·</span> Stream responses back in real time</li>
+              <li style="display: flex; gap: 8px;"><span style="color: var(--teal); font-weight: 700;">·</span> Pass conversation history to the LLM</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <div style="background: var(--teal); padding: 10px 18px;">
+            <div style="font-family: var(--font-sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: white;">The hard part</div>
+          </div>
+          <div style="padding: 16px 18px;">
+            <ul style="margin: 0; padding: 0; font-family: var(--font-sans); font-size: 13px; color: var(--text); line-height: 1.9; list-style: none;">
+              <li style="display: flex; gap: 8px; margin-bottom: 6px;"><span style="color: var(--teal); font-weight: 700;">·</span> Writing a great system prompt</li>
+              <li style="display: flex; gap: 8px; margin-bottom: 6px;"><span style="color: var(--teal); font-weight: 700;">·</span> Designing the conversation UX</li>
+              <li style="display: flex; gap: 8px;"><span style="color: var(--teal); font-weight: 700;">·</span> The API call itself? Five lines.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  const dotNav = document.getElementById('dotNav');
+  slides.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    if (i === 0) btn.classList.add('active');
+    btn.addEventListener('click', () => goTo(i));
+    dotNav.appendChild(btn);
+  });
+
+  const progressBar = document.getElementById('progressBar');
+  const arrowHint = document.getElementById('arrowHint');
+
+  function goTo(n) {
+    if (n < 0 || n >= total || n === current) return;
+    slides[current].classList.remove('active');
+    dotNav.children[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    dotNav.children[current].classList.add('active');
+    progressBar.style.width = ((current + 1) / total * 100) + '%';
+    document.body.classList.toggle('on-title', current === 0);
+
+    if (arrowHint.style.opacity !== '0') {
+      arrowHint.style.transition = 'opacity 0.5s';
+      arrowHint.style.opacity = '0';
+    }
+  }
+
+  progressBar.style.width = (1 / total * 100) + '%';
+  document.body.classList.add('on-title');
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
+    if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    if (e.key === 'End') { e.preventDefault(); goTo(total - 1); }
+  });
+
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { diff > 0 ? goTo(current + 1) : goTo(current - 1); }
+  });
+})();
+</script>
+
+</body>
+</html>
