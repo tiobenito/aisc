@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding AI Models — AISC How-To Guides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="logo-mark">[ ai study camp ]</span>
+      <a href="index.html" class="header-breadcrumb">How-To Guides →</a>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
+
+    <!-- HERO -->
+    <section class="guide-hero">
+      <div class="guide-badge">Guide 15</div>
+      <h1 class="guide-title">Understanding AI Models</h1>
+      <p class="guide-subtitle">What models are, how they're different, and when to switch between them — so you stop guessing and start choosing.</p>
+    </section>
+
+    <!-- WHAT IS A MODEL -->
+    <section class="intro-section">
+      <h2>What Is a Model?</h2>
+      <p>Think of it like a car engine. The app you use — Claude Code, ChatGPT, Cursor — is the <strong>car</strong>. The model running underneath is the <strong>engine</strong>. Same car can have different engines. Same interface can run different models.</p>
+      <p>When someone says "I used Claude," they probably mean the Claude app. But the thing that actually generates the response is a model — Sonnet, Opus, Haiku, etc. This distinction matters because <strong>the model you're using affects the quality, speed, and cost of every response you get.</strong></p>
+      <p>You don't need to understand how models are built. You just need to know which one to pick for the job.</p>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- CLAUDE FAMILY -->
+    <section class="intro-section">
+      <h2>The Claude Family</h2>
+      <p>This is what we use in the course. Three tiers, each built for a different kind of work:</p>
+      <table style="width:100%; font-size:14px; border-collapse:collapse; color: var(--text-secondary); margin-top:12px;">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">Model</th>
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">Speed</th>
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">Cost</th>
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">Best For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">Haiku</td>
+            <td style="padding:8px 12px;">Fastest</td>
+            <td style="padding:8px 12px;">Cheapest</td>
+            <td style="padding:8px 12px;">Quick questions, simple formatting, autocomplete, batch tasks</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">Sonnet</td>
+            <td style="padding:8px 12px;">Fast</td>
+            <td style="padding:8px 12px;">Moderate</td>
+            <td style="padding:8px 12px;">Most coding, writing, analysis — the everyday workhorse</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">Opus</td>
+            <td style="padding:8px 12px;">Slower</td>
+            <td style="padding:8px 12px;">Most expensive</td>
+            <td style="padding:8px 12px;">Complex reasoning, architecture decisions, subtle bugs</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="tip-box" style="margin-top:20px;">
+        <span class="tip-label">Key Idea</span>
+        <p>These aren't "good, better, best." They're different tools for different jobs. Using Opus to rename a variable is like hiring a lawyer to proofread a grocery list. <strong>Sonnet is what Claude Code uses by default</strong> — and it's the right choice for most of your work.</p>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- OPENAI FAMILY -->
+    <section class="intro-section">
+      <h2>OpenAI Models (Brief Overview)</h2>
+      <p>You'll encounter these outside the course. Here's where they roughly map:</p>
+      <table style="width:100%; font-size:14px; border-collapse:collapse; color: var(--text-secondary); margin-top:12px;">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">Model</th>
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">Comparable To</th>
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">GPT-4o</td>
+            <td style="padding:8px 12px;">Sonnet</td>
+            <td style="padding:8px 12px;">OpenAI's general-purpose model. Good all-rounder.</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">o1 / o3</td>
+            <td style="padding:8px 12px;">Opus + extended thinking</td>
+            <td style="padding:8px 12px;">OpenAI's "reasoning" models. They think longer before answering.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:12px;">For this course, you don't need to worry about OpenAI models. Just know they exist and roughly where they sit.</p>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- WHEN TO CHANGE -->
+    <section class="intro-section">
+      <h2>When to Change Your Model</h2>
+      <p><strong>Default to Sonnet for 90% of your work.</strong> It's fast, capable, and cost-effective. Most tasks don't need anything more.</p>
+    </section>
+
+    <section class="intro-section">
+      <h2>Switch to Opus When:</h2>
+      <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 6px;">
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> You're debugging something subtle that Sonnet can't figure out</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> You're planning the architecture for a new feature or project</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> The task requires complex, multi-step reasoning</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> You need nuanced judgment (e.g., "should I restructure this or just patch it?")</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Sonnet gave you a wrong or shallow answer and you want a stronger second opinion</li>
+      </ul>
+    </section>
+
+    <section class="intro-section">
+      <h2>Stick with Haiku For:</h2>
+      <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 6px;">
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Quick lookups or simple questions ("what does this error mean?")</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Simple formatting or text transformations</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Batch operations where you're running many small tasks and speed matters</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Autocomplete suggestions while coding</li>
+      </ul>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- THINKING MODES -->
+    <section class="intro-section">
+      <h2>Thinking Modes (Extended Thinking)</h2>
+      <p>Some models can "think longer" before answering. In Claude Code, this shows up as extended thinking — you'll see Claude working through the problem step by step before giving you a response.</p>
+      <p>The model spends more time reasoning through the problem internally. This produces better answers for hard problems, but takes longer and costs more.</p>
+    </section>
+
+    <section class="intro-section">
+      <h2>When to Use Extended Thinking</h2>
+      <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 6px;">
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Complex debugging where the bug isn't obvious</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Architectural decisions with multiple tradeoffs</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Tricky logic or multi-step problems</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> When you get a wrong answer in normal mode and want Claude to think harder</li>
+      </ul>
+    </section>
+
+    <section class="intro-section">
+      <h2>When NOT to Use Extended Thinking</h2>
+      <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 6px;">
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Simple tasks (drafting a message, renaming files, basic questions)</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Anything where speed matters more than depth</li>
+        <li style="font-size: 15px; color: var(--text-secondary); padding-left: 18px; position: relative;"><span style="position: absolute; left: 0; color: var(--teal); font-weight: 600;">›</span> Tasks Sonnet handles fine on the first try</li>
+      </ul>
+    </section>
+
+    <div class="tip-box">
+      <span class="tip-label">In Claude Code</span>
+      <p>You can nudge Claude toward deeper thinking by using phrases like "think carefully about this" or "think step by step" in your prompt. Claude Code also has explicit extended thinking controls — when enabled, you'll see the thinking process in the output.</p>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- COST AWARENESS -->
+    <section class="intro-section">
+      <h2>Cost Awareness</h2>
+      <p>More capable = more expensive = slower. That's the tradeoff.</p>
+      <table style="width:100%; font-size:14px; border-collapse:collapse; color: var(--text-secondary); margin-top:12px;">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);"></th>
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">Haiku</th>
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">Sonnet</th>
+            <th style="text-align:left; padding:8px 12px; font-weight:600; color:var(--text);">Opus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">Relative cost</td>
+            <td style="padding:8px 12px;">$</td>
+            <td style="padding:8px 12px;">$$</td>
+            <td style="padding:8px 12px;">$$$$</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">Relative speed</td>
+            <td style="padding:8px 12px;">Fastest</td>
+            <td style="padding:8px 12px;">Fast</td>
+            <td style="padding:8px 12px;">Slower</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">Quality ceiling</td>
+            <td style="padding:8px 12px;">Good for simple tasks</td>
+            <td style="padding:8px 12px;">Great for most tasks</td>
+            <td style="padding:8px 12px;">Best for hard tasks</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="tip-box" style="margin-top:20px;">
+        <span class="tip-label">Budget Tip</span>
+        <p>For students on free tiers or limited budgets, <strong>Sonnet is the right default.</strong> Don't upgrade to Opus unless Sonnet is genuinely failing at the task. The mistake to avoid: using the most powerful model for everything "just in case." You'll burn through your budget faster, get slower responses, and the output won't actually be better for simple tasks.</p>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- THE DECISION -->
+    <section class="intro-section">
+      <h2>The Decision in Practice</h2>
+      <p>When you sit down to work, ask yourself one question: <strong>is this task simple, normal, or hard?</strong></p>
+    </section>
+
+    <section class="steps-section">
+      <div class="steps-container">
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">1</div>
+            <h2 class="step-title">Simple Task</h2>
+          </div>
+          <div class="step-body">
+            <p>Quick question, formatting, lookup.</p>
+            <p><strong>Use:</strong> Haiku or Sonnet, no extended thinking.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">2</div>
+            <h2 class="step-title">Normal Task</h2>
+          </div>
+          <div class="step-body">
+            <p>Coding a feature, writing, analysis.</p>
+            <p><strong>Use:</strong> Sonnet, no extended thinking. This is 90% of your work.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">3</div>
+            <h2 class="step-title">Hard Task</h2>
+          </div>
+          <div class="step-body">
+            <p>Subtle bug, architecture decision, complex reasoning.</p>
+            <p><strong>Use:</strong> Sonnet first. If it struggles, switch to Opus or enable extended thinking.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="tip-box" style="margin-top: 8px;">
+      <span class="tip-label">The Framework</span>
+      <p>Start with the lighter option and escalate only when needed. That's it. You don't need to memorize model specs or pricing tables. Just ask: <strong>is Sonnet handling this well?</strong> If yes, keep going. If not, try harder.</p>
+    </div>
+
+  </main>
+
+  <!-- FOOTER NAV -->
+  <footer class="guide-nav">
+    <div class="guide-nav-inner">
+      <a href="14-tool-landscape.html" class="nav-link">&larr; Guide 14: Which AI Tool Should I Use?</a>
+      <span class="nav-placeholder"></span>
+    </div>
+  </footer>
+
+</body>
+</html>
