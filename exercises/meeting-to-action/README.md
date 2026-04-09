@@ -9,8 +9,8 @@ A reusable `/meeting-summary` skill that takes any meeting transcript or rough n
 ## How to use it
 
 ```bash
-git clone https://github.com/tiobenito/aisc meeting-to-action
-cd meeting-to-action/meeting-to-action
+git clone https://github.com/tiobenito/aisc
+cd aisc/exercises/meeting-to-action
 claude
 ```
 

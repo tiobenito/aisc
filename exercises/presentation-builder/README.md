@@ -9,8 +9,8 @@ A `/make-deck` skill that takes messy notes and produces a clean, professional s
 ## How to use it
 
 ```bash
-git clone https://github.com/tiobenito/aisc presentation-builder
-cd presentation-builder/presentation-builder
+git clone https://github.com/tiobenito/aisc
+cd aisc/exercises/presentation-builder
 claude
 ```
 

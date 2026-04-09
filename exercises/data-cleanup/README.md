@@ -9,8 +9,8 @@ A reusable `/clean-data` skill that takes any messy CSV (inconsistent dates, dup
 ## How to use it
 
 ```bash
-git clone https://github.com/tiobenito/aisc data-cleanup
-cd data-cleanup/data-cleanup
+git clone https://github.com/tiobenito/aisc
+cd aisc/exercises/data-cleanup
 claude
 ```
 

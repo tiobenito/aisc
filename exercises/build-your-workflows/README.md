@@ -14,8 +14,8 @@ A personal toolkit of 3-5 working workflows: skills, scheduled tasks, MCP integr
 ## How to use it
 
 ```bash
-git clone https://github.com/tiobenito/aisc build-your-workflows
-cd build-your-workflows/build-your-workflows
+git clone https://github.com/tiobenito/aisc
+cd aisc/exercises/build-your-workflows
 claude
 ```
 

@@ -15,8 +15,8 @@ A `/briefing` skill that connects to Gmail and Google Calendar, summarizes your 
 ## How to use it
 
 ```bash
-git clone https://github.com/tiobenito/aisc morning-briefing
-cd morning-briefing/morning-briefing
+git clone https://github.com/tiobenito/aisc
+cd aisc/exercises/morning-briefing
 claude
 ```
 

@@ -9,8 +9,8 @@ A reusable skill -- a prompt that Claude loads automatically when you need it. L
 ## How to use it
 
 ```bash
-git clone https://github.com/tiobenito/aisc skill-builder
-cd skill-builder/skill-builder
+git clone https://github.com/tiobenito/aisc
+cd aisc/exercises/skill-builder
 claude
 ```
 

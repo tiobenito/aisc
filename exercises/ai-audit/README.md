@@ -9,8 +9,8 @@ A prioritized list of 15-20 tasks you can automate, delegate to AI, or build wor
 ## How to use it
 
 ```bash
-git clone https://github.com/tiobenito/aisc ai-audit
-cd ai-audit/ai-audit
+git clone https://github.com/tiobenito/aisc
+cd aisc/exercises/ai-audit
 claude
 ```
 

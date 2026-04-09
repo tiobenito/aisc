@@ -9,8 +9,8 @@ A real workflow diagram from your job -- onboarding, content approval, expense r
 ## How to use it
 
 ```bash
-git clone https://github.com/tiobenito/aisc workflow-visualizer
-cd workflow-visualizer/workflow-visualizer
+git clone https://github.com/tiobenito/aisc
+cd aisc/exercises/workflow-visualizer
 claude
 ```
 
