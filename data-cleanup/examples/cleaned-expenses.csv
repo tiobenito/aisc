@@ -1,0 +1,37 @@
+Date,Description,Category,Vendor,Amount,Notes,Flags
+2026-04-08,Flight to NYC,Travel,Delta Airlines,1245.00,Q2 planning offsite,
+2026-04-08,Uber to airport,Travel,Uber,38.50,,
+2026-04-08,Airport lunch,Meals,Chili's,22.15,Layover meal,
+2026-04-08,Hotel check-in,Travel,Marriott,289.00,2 nights,
+2026-04-09,Breakfast meeting,Meals,Starbucks,47.80,Client breakfast,Duplicate removed (row 7)
+2026-04-09,Uber to office,Travel,Uber,24.00,,
+2026-04-09,Office supplies,Office,Staples,156.32,Printer paper and toner,
+2026-04-10,Client dinner,Meals,The Capital Grille,312.50,Dinner with Acme Corp,
+2026-04-10,Uber back to hotel,Travel,Uber,18.75,,
+2026-04-10,Conference registration,Training,TechCrunch Disrupt,899.00,Early bird ticket,
+2026-04-10,Taxi to restaurant,Travel,Yellow Cab,15.00,No receipt - estimated,Date was missing - inferred from context
+2026-04-11,Hotel checkout,Travel,Marriott,289.00,2 nights,Category normalized from "Business Travel"
+2026-04-11,Flight home,Travel,Delta Airlines,1245.00,Return flight,Amount had no $ sign
+2026-04-11,Airport snacks,Meals,Hudson News,8.45,,Category normalized from "Food"
+2026-04-12,Monthly software,Software,Notion,16.00,Team plan,
+2026-04-12,Weekly team lunch,Meals,Chipotle,89.50,Team of 6,
+2026-04-13,Uber to coworking,Travel,Uber,12.00,,Vendor normalized from "UBER"
+2026-04-14,Client gift basket,Client Relations,GiftBasketsPlus,125.00,Thank you for Acme deal,Category was missing - assigned
+2026-04-14,Printing for presentation,Office,FedEx Office,45.20,50 color copies,
+2026-04-14,Working lunch,Meals,Panera Bread,18.90,,
+2026-04-15,Monthly phone bill,Phone,T-Mobile,85.00,Business line,
+2026-04-15,Cloud hosting,Software,AWS,234.67,Monthly infrastructure,
+2026-04-15,Taxi to client site,Travel,Yellow Cab,22.00,,Category was missing - assigned
+2026-04-16,Team coffee run,Meals,Starbucks,36.75,Morning standup treat,Vendor corrected from "Starbacks"
+2026-04-16,Uber to airport,Travel,Uber,42.00,Chicago trip,
+2026-04-16,Flight to Chicago,Travel,United Airlines,567.00,Customer visit,Duplicate removed (row 30)
+2026-04-17,Hotel Chicago,Travel,Hilton,199.00,1 night,
+2026-04-17,Client dinner Chicago,Meals,Gibson's Steakhouse,278.90,Dinner with prospect,
+2026-04-18,Uber from ORD,Travel,Uber,28.50,,
+2026-04-18,Coworking day pass,Office,WeWork,45.00,Chicago location,
+2026-04-18,Working lunch Chicago,Meals,Portillo's,14.25,,Category was missing - assigned
+2026-04-19,Flight home from Chicago,Travel,United Airlines,489.00,Return,
+2026-04-19,Monthly CRM,Software,HubSpot,450.00,Annual plan / 12,Amount had no $ sign
+2026-04-19,Parking at airport,Travel,LAX Parking,62.00,4 days,Date was missing - inferred from context
+2026-04-20,Team celebration dinner,Meals,Nobu,520.00,Q2 kickoff dinner,
+2026-04-20,Uber home from dinner,Travel,Uber,35.00,Late night,

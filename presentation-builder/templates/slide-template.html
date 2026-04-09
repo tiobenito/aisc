@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{DECK_TITLE}}</title>
+<style>
+  :root {
+    --cream: #F5F0EB;
+    --cream-light: #FAF7F4;
+    --white: #FFFFFF;
+    --dark: #1C1917;
+    --dark-card: #292522;
+
+    --text: #1C1917;
+    --text-secondary: #57534E;
+    --text-muted: #A8A29E;
+    --text-on-dark: #F5F3EF;
+    --text-on-dark-muted: #A8A29E;
+
+    --accent: #0D9488;
+    --accent-dark: #0F766E;
+    --accent-muted: #5EAAA6;
+    --accent-bg: rgba(13, 148, 136, 0.08);
+    --accent-border: rgba(13, 148, 136, 0.3);
+
+    --border: rgba(28, 25, 23, 0.1);
+    --border-strong: rgba(28, 25, 23, 0.18);
+
+    --font-serif: 'Georgia', 'Times New Roman', serif;
+    --font-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: var(--cream);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .deck { width: 100%; height: 100%; position: relative; }
+
+  /* --- Slides --- */
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 80px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    overflow-y: auto;
+    background: var(--cream);
+  }
+  .slide.active { opacity: 1; pointer-events: auto; }
+  .slide.dark-bg { background: var(--dark); color: var(--text-on-dark); }
+
+  .slide-inner {
+    max-width: 900px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* --- Progress bar --- */
+  .progress-bar {
+    position: fixed; top: 0; left: 0;
+    height: 3px; background: var(--accent);
+    transition: width 0.4s ease; z-index: 100;
+  }
+
+  /* --- Dot navigation --- */
+  .dot-nav {
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 10px; z-index: 100;
+  }
+  .dot-nav button {
+    width: 8px; height: 8px; border-radius: 50%;
+    border: 1.5px solid var(--text-muted);
+    background: transparent; cursor: pointer;
+    transition: all 0.3s ease; padding: 0;
+  }
+  .dot-nav button.active {
+    background: var(--accent); border-color: var(--accent);
+    transform: scale(1.25);
+  }
+  .dot-nav button:hover:not(.active) { border-color: var(--text-secondary); }
+
+  /* --- Arrow hint --- */
+  .arrow-hint {
+    position: fixed; bottom: 54px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px; color: var(--text-muted);
+    letter-spacing: 0.3px; z-index: 100; opacity: 0.7;
+  }
+
+  /* --- Slide counter --- */
+  .slide-counter {
+    position: fixed; bottom: 28px; right: 32px;
+    font-size: 12px; color: var(--text-muted);
+    font-family: var(--font-mono);
+    z-index: 100;
+  }
+
+  /* --- Typography --- */
+  h1 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: clamp(48px, 5.5vw, 72px);
+    line-height: 1.1;
+    text-align: center;
+    letter-spacing: -0.01em;
+  }
+
+  h2 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: clamp(28px, 3.2vw, 42px);
+    text-align: center;
+    margin-bottom: 12px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .subtitle {
+    font-size: clamp(16px, 2vw, 22px);
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+
+  /* --- Title slide specifics --- */
+  .hero-title {
+    color: var(--text-on-dark);
+    margin-bottom: 20px;
+  }
+  .hero-subtitle {
+    font-size: clamp(18px, 2.2vw, 26px);
+    color: var(--text-on-dark-muted);
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .hero-date {
+    font-size: 14px;
+    color: var(--accent-muted);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-top: 32px;
+  }
+
+  /* --- Content bullets --- */
+  .bullets {
+    list-style: none;
+    width: 100%;
+    max-width: 700px;
+    margin-top: 24px;
+  }
+  .bullets li {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    padding: 10px 0;
+    padding-left: 24px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+  }
+  .bullets li:last-child { border-bottom: none; }
+  .bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 18px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+  .bullets li strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* --- Stat card grid --- */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    width: 100%;
+    max-width: 700px;
+    margin-top: 28px;
+  }
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 20px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(28, 25, 23, 0.06);
+  }
+  .stat-number {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  /* --- Callout box --- */
+  .callout {
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-border);
+    border-radius: 10px;
+    padding: 20px 28px;
+    margin-top: 28px;
+    max-width: 700px;
+    width: 100%;
+  }
+  .callout p {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    text-align: center;
+  }
+  .callout strong { color: var(--accent-dark); }
+
+  /* --- Tag / pill --- */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--accent-bg);
+    color: var(--accent-dark);
+    border: 1px solid var(--accent-border);
+    letter-spacing: 0.2px;
+  }
+
+  /* --- Dark slide overrides --- */
+  .slide.dark-bg h2 { color: var(--text-on-dark); }
+  .slide.dark-bg .subtitle { color: var(--text-on-dark-muted); }
+  .slide.dark-bg .bullets li { color: var(--text-on-dark-muted); border-color: rgba(255,255,255,0.08); }
+  .slide.dark-bg .bullets li strong { color: var(--text-on-dark); }
+  .slide.dark-bg .bullets li::before { opacity: 0.8; }
+
+  /* --- Responsive --- */
+  @media (max-width: 700px) {
+    .slide { padding: 40px 28px; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .bullets li { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="dot-nav" id="dotNav"></div>
+<div class="arrow-hint" id="arrowHint">Use arrow keys or swipe to navigate</div>
+<div class="slide-counter" id="slideCounter"></div>
+
+<div class="deck" id="deck">
+
+  <!-- ============================================ -->
+  <!-- TITLE SLIDE (dark background)                -->
+  <!-- ============================================ -->
+  <div class="slide dark-bg active" data-slide="0">
+    <div class="slide-inner">
+      <h1 class="hero-title">{{PRESENTATION_TITLE}}</h1>
+      <p class="hero-subtitle">{{PRESENTATION_SUBTITLE}}</p>
+      <p class="hero-date">{{DATE}}</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- CONTENT SLIDE - Bullets                      -->
+  <!-- ============================================ -->
+  <!--
+  <div class="slide" data-slide="1">
+    <div class="slide-inner">
+      <h2>{{SLIDE_HEADING}}</h2>
+      <p class="subtitle">{{OPTIONAL_SUBHEADING}}</p>
+      <ul class="bullets">
+        <li><strong>Key point</strong> - supporting detail goes here</li>
+        <li><strong>Key point</strong> - supporting detail goes here</li>
+        <li><strong>Key point</strong> - supporting detail goes here</li>
+      </ul>
+    </div>
+  </div>
+  -->
+
+  <!-- ============================================ -->
+  <!-- CONTENT SLIDE - Stats                        -->
+  <!-- ============================================ -->
+  <!--
+  <div class="slide" data-slide="2">
+    <div class="slide-inner">
+      <h2>{{SLIDE_HEADING}}</h2>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-number">{{NUMBER}}</div>
+          <div class="stat-label">{{LABEL}}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">{{NUMBER}}</div>
+          <div class="stat-label">{{LABEL}}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">{{NUMBER}}</div>
+          <div class="stat-label">{{LABEL}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  -->
+
+  <!-- ============================================ -->
+  <!-- CONTENT SLIDE - Callout                      -->
+  <!-- ============================================ -->
+  <!--
+  <div class="slide" data-slide="3">
+    <div class="slide-inner">
+      <h2>{{SLIDE_HEADING}}</h2>
+      <div class="callout">
+        <p>{{CALLOUT_TEXT}}</p>
+      </div>
+    </div>
+  </div>
+  -->
+
+  <!-- ============================================ -->
+  <!-- CLOSING SLIDE (dark background)              -->
+  <!-- ============================================ -->
+  <!--
+  <div class="slide dark-bg" data-slide="4">
+    <div class="slide-inner">
+      <h2 style="color: var(--text-on-dark); font-size: clamp(32px, 4vw, 52px); margin-bottom: 16px;">{{CLOSING_TITLE}}</h2>
+      <p class="hero-subtitle">{{CLOSING_SUBTITLE}}</p>
+    </div>
+  </div>
+  -->
+
+</div>
+
+<script>
+(function () {
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  // Build dot navigation
+  const dotNav = document.getElementById('dotNav');
+  slides.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    if (i === 0) btn.classList.add('active');
+    btn.addEventListener('click', () => goTo(i));
+    dotNav.appendChild(btn);
+  });
+
+  const progressBar = document.getElementById('progressBar');
+  const arrowHint = document.getElementById('arrowHint');
+  const slideCounter = document.getElementById('slideCounter');
+
+  function updateCounter() {
+    slideCounter.textContent = (current + 1) + ' / ' + total;
+  }
+
+  function goTo(n) {
+    if (n < 0 || n >= total || n === current) return;
+    slides[current].classList.remove('active');
+    dotNav.children[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    dotNav.children[current].classList.add('active');
+    progressBar.style.width = ((current + 1) / total * 100) + '%';
+    updateCounter();
+
+    if (arrowHint.style.opacity !== '0') {
+      arrowHint.style.transition = 'opacity 0.5s';
+      arrowHint.style.opacity = '0';
+    }
+  }
+
+  // Initialize
+  progressBar.style.width = (1 / total * 100) + '%';
+  updateCounter();
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
+    if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    if (e.key === 'End') { e.preventDefault(); goTo(total - 1); }
+  });
+
+  // Touch/swipe navigation
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { diff > 0 ? goTo(current + 1) : goTo(current - 1); }
+  });
+})();
+</script>
+
+</body>
+</html>
