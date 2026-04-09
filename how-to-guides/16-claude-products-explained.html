@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Products Explained — AISC How-To Guides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="logo-mark">[ ai study camp ]</span>
+      <a href="index.html" class="header-breadcrumb">How-To Guides →</a>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
+
+    <!-- HERO -->
+    <section class="guide-hero">
+      <div class="guide-badge">Guide 16</div>
+      <h1 class="guide-title">Claude Products Explained</h1>
+      <p class="guide-subtitle">The difference between Claude Chat, Claude Code CLI, Claude Code Desktop, and Claude Cowork — and why this course uses the CLI.</p>
+    </section>
+
+    <!-- WHY THIS IS CONFUSING -->
+    <div class="intro-section">
+      <h2>Why This Is Confusing</h2>
+      <p>Anthropic has one AI (Claude) but multiple ways to use it. Students often ask: "Why are we using the terminal? Can't I just use the desktop app?" or "What's Cowork?"</p>
+      <p>Think of Claude as the brain. The products are different bodies you can put it in — each one gives it different abilities.</p>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- 1. CLAUDE CHAT -->
+    <div class="intro-section">
+      <h2>1. Claude Chat</h2>
+      <p>The one most people know. You type, Claude responds. Available at <a href="https://claude.ai">claude.ai</a> in your browser, on your phone, or in the <strong>Chat tab</strong> of the desktop app.</p>
+    </div>
+
+    <div class="intro-section">
+      <table style="width:100%; font-size:14px; border-collapse:collapse; color: var(--text-secondary);">
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text); width:30%;">What it does</td>
+            <td style="padding:8px 12px;">Answer questions, brainstorm, write, analyze, search the web, create artifacts (charts, docs, code previews), upload files, connect to Gmail/Calendar/Notion/Slack, voice conversations</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">What it can't do</td>
+            <td style="padding:8px 12px;">Read/write files on your computer, run terminal commands, work on a full codebase, do multi-step tasks autonomously</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">Best for</td>
+            <td style="padding:8px 12px;">Everyone. No technical skills needed. Quick questions, writing, research, brainstorming</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">Cost</td>
+            <td style="padding:8px 12px;"><strong>Free plan available.</strong> Pro ($20/mo) for higher limits and Opus</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- 2. CLAUDE CODE CLI -->
+    <div class="intro-section">
+      <h2>2. Claude Code CLI (Terminal)</h2>
+      <p><strong>This is what we use in this course.</strong> You open your terminal, navigate to a project folder, type <code>claude</code>, and start building. Claude reads your entire project, edits files, runs commands, and manages git — all from the terminal.</p>
+    </div>
+
+    <div class="intro-section">
+      <table style="width:100%; font-size:14px; border-collapse:collapse; color: var(--text-secondary);">
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text); width:30%;">What it does</td>
+            <td style="padding:8px 12px;">Read your entire codebase, edit multiple files, run any terminal command (npm, git, tests), create commits/branches/PRs, remember project context (CLAUDE.md), install skills, connect to external tools (GitHub, Notion), run on remote servers, work in CI/CD pipelines</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">What it can't do</td>
+            <td style="padding:8px 12px;">Show visual diffs (text only), preview your app in a browser, control your screen — no GUI, it's all text</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">Best for</td>
+            <td style="padding:8px 12px;">Developers and power users who want maximum control. People comfortable with (or learning) the terminal</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">Cost</td>
+            <td style="padding:8px 12px;">Pro ($20/mo) or higher. <strong>Not available on the free plan</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- 3. CLAUDE CODE DESKTOP -->
+    <div class="intro-section">
+      <h2>3. Claude Code Desktop (Code Tab)</h2>
+      <p>The same Claude Code engine, but wrapped in a graphical interface. Click the <strong>Code tab</strong> in the desktop app instead of opening your terminal.</p>
+    </div>
+
+    <div class="intro-section">
+      <table style="width:100%; font-size:14px; border-collapse:collapse; color: var(--text-secondary);">
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text); width:30%;">Everything the CLI does, plus</td>
+            <td style="padding:8px 12px;">Visual diff review (side-by-side file changes), live app preview (embedded browser), computer use (Claude controls your screen), GitHub PR monitoring with auto-fix, multiple parallel sessions, point-and-click connector setup</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">What it can't do</td>
+            <td style="padding:8px 12px;">Some advanced CLI features (piping, scripting). Computer use requires Pro or Max plan</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">Best for</td>
+            <td style="padding:8px 12px;">Developers who want Claude Code power with visual feedback. People who prefer clicking over typing commands</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">Cost</td>
+            <td style="padding:8px 12px;">Same as CLI — Pro ($20/mo) or higher. <strong>Not available on the free plan</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- 4. CLAUDE COWORK -->
+    <div class="intro-section">
+      <h2>4. Claude Cowork (Cowork Tab)</h2>
+      <p>The newest product. Designed for <strong>non-coding knowledge work</strong>. You give Claude a goal, it breaks it into steps, and works autonomously while you do other things.</p>
+    </div>
+
+    <div class="intro-section">
+      <table style="width:100%; font-size:14px; border-collapse:collapse; color: var(--text-secondary);">
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text); width:30%;">What it does</td>
+            <td style="padding:8px 12px;">Read/write files on your computer, create finished deliverables (Excel, PowerPoint, docs), research and synthesize information, organize files, control your screen, Dispatch (send tasks from your phone), scheduled recurring tasks</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">What it can't do</td>
+            <td style="padding:8px 12px;">Not designed for coding. Desktop app must stay open (laptop sleeps = tasks pause). Still a research preview — complex tasks succeed about 50% of the time. Burns through usage quota fast</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">Best for</td>
+            <td style="padding:8px 12px;">Non-technical knowledge workers — researchers, analysts, ops, legal, finance. Anyone who works with documents and data but doesn't code</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px; font-weight:600; color:var(--text);">Cost</td>
+            <td style="padding:8px 12px;">Pro ($20/mo) or higher. Dispatch and computer use require <strong>Pro or Max only</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- THE COMPARISON CHART -->
+    <div class="intro-section">
+      <h2>The Full Comparison</h2>
+      <table style="width:100%; font-size:13px; border-collapse:collapse; color: var(--text-secondary);">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--border);">
+            <th style="text-align:left; padding:8px 10px; font-weight:600; color:var(--text);">Feature</th>
+            <th style="text-align:center; padding:8px 10px; font-weight:600; color:var(--text);">Chat</th>
+            <th style="text-align:center; padding:8px 10px; font-weight:600; color:var(--text);">Code CLI</th>
+            <th style="text-align:center; padding:8px 10px; font-weight:600; color:var(--text);">Code Desktop</th>
+            <th style="text-align:center; padding:8px 10px; font-weight:600; color:var(--text);">Cowork</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 10px;">Read your files</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 10px;">Write/edit files</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 10px;">Run terminal commands</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 10px;">Search the web</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 10px;">Visual diffs</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 10px;">Live app preview</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 10px;">Screen control</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+            <td style="padding:8px 10px; text-align:center;">Pro/Max</td>
+            <td style="padding:8px 10px; text-align:center;">Pro/Max</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 10px;">Autonomous multi-step</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+            <td style="padding:8px 10px; text-align:center;">Partial</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 10px;">Background tasks</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+            <td style="padding:8px 10px; text-align:center;">Yes</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 10px;">Works on free plan</td>
+            <td style="padding:8px 10px; text-align:center;"><strong>Yes</strong></td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+            <td style="padding:8px 10px; text-align:center;">-</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:8px 10px;">Best for</td>
+            <td style="padding:8px 10px; text-align:center;">Everyone</td>
+            <td style="padding:8px 10px; text-align:center;">Developers</td>
+            <td style="padding:8px 10px; text-align:center;">Developers</td>
+            <td style="padding:8px 10px; text-align:center;">Knowledge workers</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 10px;">Skill level</td>
+            <td style="padding:8px 10px; text-align:center;">Beginner</td>
+            <td style="padding:8px 10px; text-align:center;">Intermediate</td>
+            <td style="padding:8px 10px; text-align:center;">Intermediate</td>
+            <td style="padding:8px 10px; text-align:center;">Beginner</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- WHY WE USE THE CLI -->
+    <div class="intro-section">
+      <h2>Why We Use Claude Code CLI in This Course</h2>
+    </div>
+
+    <section class="steps-section">
+      <div class="steps-container">
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">1</div>
+            <h2 class="step-title">It's the most powerful</h2>
+          </div>
+          <div class="step-body">
+            <p>The CLI gives you full control — every terminal command, every file operation, every git workflow. Nothing is hidden behind a GUI.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">2</div>
+            <h2 class="step-title">It teaches you real skills</h2>
+          </div>
+          <div class="step-body">
+            <p>Learning the terminal, git, and command-line tools carries over to any development environment. The desktop app abstracts these away — convenient, but you don't learn as much.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-circle">3</div>
+            <h2 class="step-title">It works everywhere</h2>
+          </div>
+          <div class="step-body">
+            <p>The CLI runs on any machine with a terminal — your laptop, a remote server, a CI pipeline. The desktop app only works on your local machine with the app open.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="tip-box">
+      <span class="tip-label">Note</span>
+      <p>The desktop Code tab is great once you're comfortable. But starting with the CLI means you understand what's actually happening underneath.</p>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- QUICK DECISION GUIDE -->
+    <div class="intro-section">
+      <h2>Quick Decision Guide</h2>
+      <table style="width:100%; font-size:14px; border-collapse:collapse; color: var(--text-secondary);">
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:10px 12px; font-weight:600; color:var(--text); width:50%;">"I just want to ask Claude a question"</td>
+            <td style="padding:10px 12px;">Chat</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:10px 12px; font-weight:600; color:var(--text);">"I want to build an app"</td>
+            <td style="padding:10px 12px;">Code CLI (this course) or Code Desktop</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:10px 12px; font-weight:600; color:var(--text);">"I want visual diffs and app preview"</td>
+            <td style="padding:10px 12px;">Code Desktop</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:10px 12px; font-weight:600; color:var(--text);">"I want Claude to research and make me a document"</td>
+            <td style="padding:10px 12px;">Cowork</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding:10px 12px; font-weight:600; color:var(--text);">"I want Claude to work while I do other things"</td>
+            <td style="padding:10px 12px;">Cowork or Code Desktop</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 12px; font-weight:600; color:var(--text);">"I'm on the free plan"</td>
+            <td style="padding:10px 12px;">Chat (only option)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <!-- FOOTER NAV -->
+  <footer class="guide-nav">
+    <div class="guide-nav-inner">
+      <a href="15-understanding-models.html" class="nav-link">← Guide 15: Understanding Models</a>
+      <span class="nav-placeholder"></span>
+    </div>
+  </footer>
+
+</body>
+</html>
